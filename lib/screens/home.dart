@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:messager/screens/chat_tab.dart';
+import 'package:provider/provider.dart';
 
-import 'package:messager/widgets/bar_icon.dart';
+import 'package:messenger/widgets/home_screen/bar_icon.dart';
+import 'package:messenger/providers/settings_provider.dart';
+import 'package:messenger/screens/settings_tab.dart';
+import 'package:messenger/screens/chat_tab.dart';
+import 'package:messenger/generated/l10n.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,56 +31,49 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.watch<SettingsProvider>();
+    final s = S.of(context);
+
     return SafeArea(
       child: Scaffold(
         body: TabBarView(
           controller: _tabController,
-          children: const [
-            Center(child: Text("Contacts")),
-            Center(child: Text("Profile")),
+          children: [
+            Center(child: Text(s.bar_contacts)),
+            Center(child: Text(s.bar_profile)),
             ChatTab(),
-            Center(child: Text("Settings")),
+            SettingsTab(),
           ],
         ),
         bottomNavigationBar: TabBar(
           dividerColor: Colors.transparent,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white,
           indicatorSize: TabBarIndicatorSize.tab,
           overlayColor: WidgetStatePropertyAll(Colors.transparent),
-          indicator: const BoxDecoration(
+          indicator: BoxDecoration(
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             gradient: RadialGradient(
-              colors: [Color(0xFF7442C8), Colors.transparent],
+              colors: [settings.accentColor, Colors.transparent],
               stops: [0.5, 1.0],
             ),
           ),
+
           controller: _tabController,
-          tabs: const [
+          tabs: [
             Tab(
-              child: BarIcon(
-                title: "Contacts",
-                icon: Icon(Icons.people),
-              ),
+              child: BarIcon(title: s.bar_contacts, icon: Icon(Icons.people)),
+            ),
+            Tab(
+              child: BarIcon(title: s.bar_profile, icon: Icon(Icons.person)),
             ),
             Tab(
               child: BarIcon(
-                title: "Profile",
-                icon: Icon(Icons.person),
-              ),
-            ),
-            Tab(
-              child: BarIcon(
-                title: "Chats",
+                title: s.bar_chats,
                 icon: Icon(Icons.wechat_outlined),
               ),
             ),
             Tab(
-              child: BarIcon(
-                title: "Settings",
-                icon: Icon(Icons.settings),
-              ),
+              child: BarIcon(title: s.bar_settings, icon: Icon(Icons.settings)),
             ),
           ],
         ),

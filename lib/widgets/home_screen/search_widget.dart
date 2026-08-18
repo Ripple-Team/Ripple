@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/generated/l10n.dart';
 
 class SearchWidget extends StatefulWidget {
   const SearchWidget({super.key});
 
   @override
-  State<SearchWidget> createState() => SearchWidgetState();
+  State<SearchWidget> createState() => _SearchWidgetState();
 }
 
-class SearchWidgetState extends State<SearchWidget> {
+class _SearchWidgetState extends State<SearchWidget> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   bool isFocus = false;
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 10,
@@ -22,9 +25,6 @@ class SearchWidgetState extends State<SearchWidget> {
           width: 250,
           child: TextField(
             textAlignVertical: TextAlignVertical.center,
-            style: TextStyle(
-              color: Colors.white,
-            ),
             controller: _controller,
             focusNode: _focusNode,
             onTap: () {
@@ -41,7 +41,7 @@ class SearchWidgetState extends State<SearchWidget> {
             },
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
-              hintText: "Search",
+              hintText: s.hint_search,
               border: InputBorder.none,
             ),
           ),

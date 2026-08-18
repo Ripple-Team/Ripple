@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:messenger/screens/chat_screen.dart';
+
 // TODO: work
 class ChatPreview extends StatefulWidget {
   const ChatPreview({super.key});
 
   @override
-  State<ChatPreview> createState() => ChatPreviewState();
+  State<ChatPreview> createState() => _ChatPreviewState();
 }
 
-class ChatPreviewState extends State<ChatPreview> {
+class _ChatPreviewState extends State<ChatPreview> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -30,9 +32,10 @@ class ChatPreviewState extends State<ChatPreview> {
         style: TextStyle(fontSize: 14, color: Color(0xFF666666)),
       ),
       onTap: () {
-        //   TODO: GO TO CHAT!
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const ChatScreen())
+        );
       },
-      textColor: Colors.white,
     );
   }
 }
