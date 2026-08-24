@@ -56,8 +56,8 @@ class S {
   }
 
   /// `messenger`
-  String get appTitle {
-    return Intl.message('messenger', name: 'appTitle', desc: '', args: []);
+  String get app_title {
+    return Intl.message('messenger', name: 'app_title', desc: '', args: []);
   }
 
   /// `Contacts`
@@ -86,10 +86,10 @@ class S {
   }
 
   /// `You have no chat yet. \nStart chat with somebody!`
-  String get noChats {
+  String get no_chats {
     return Intl.message(
       'You have no chat yet. \nStart chat with somebody!',
-      name: 'noChats',
+      name: 'no_chats',
       desc: '',
       args: [],
     );
@@ -165,14 +165,14 @@ class S {
     );
   }
 
-  /// `english`
+  /// `English`
   String get english {
-    return Intl.message('english', name: 'english', desc: '', args: []);
+    return Intl.message('English', name: 'english', desc: '', args: []);
   }
 
-  /// `русский`
+  /// `Русский`
   String get russian {
-    return Intl.message('русский', name: 'russian', desc: '', args: []);
+    return Intl.message('Русский', name: 'russian', desc: '', args: []);
   }
 }
 

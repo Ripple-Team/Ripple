@@ -1,12 +1,12 @@
 {
   "@@locale": "en",
-  "appTitle": "messenger",
+  "app_title": "messenger",
   "bar_contacts": "Contacts",
   "bar_profile": "Profile",
   "bar_chats": "Chats",
   "bar_settings": "Settings",
   "hint_search": "search",
-  "noChats": "You have no chat yet. \nStart chat with somebody!",
+  "no_chats": "You have no chat yet. \nStart chat with somebody!",
   "settings_tab_themeMode_title": "Theme Mode",
   "settings_tab_themeMode_system": "system",
   "settings_tab_themeMode_light": "light",
@@ -14,6 +14,6 @@
   "settings_tab_accentColor_title": "AccentColor",
   "settings_tab_language_title": "Language",
   "chat_screen_text_field_hint_text": "Message...",
-  "english": "english",
-  "russian": "русский"
+  "english": "English",
+  "russian": "Русский"
 }

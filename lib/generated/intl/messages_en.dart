@@ -22,7 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "appTitle": MessageLookupByLibrary.simpleMessage("messenger"),
+    "app_title": MessageLookupByLibrary.simpleMessage("messenger"),
     "bar_chats": MessageLookupByLibrary.simpleMessage("Chats"),
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Profile"),
@@ -30,12 +30,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "chat_screen_text_field_hint_text": MessageLookupByLibrary.simpleMessage(
       "Message...",
     ),
-    "english": MessageLookupByLibrary.simpleMessage("english"),
+    "english": MessageLookupByLibrary.simpleMessage("English"),
     "hint_search": MessageLookupByLibrary.simpleMessage("search"),
-    "noChats": MessageLookupByLibrary.simpleMessage(
+    "no_chats": MessageLookupByLibrary.simpleMessage(
       "You have no chat yet. \nStart chat with somebody!",
     ),
-    "russian": MessageLookupByLibrary.simpleMessage("русский"),
+    "russian": MessageLookupByLibrary.simpleMessage("Русский"),
     "settings_tab_accentColor_title": MessageLookupByLibrary.simpleMessage(
       "AccentColor",
     ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/utils/utils.dart';
+import 'package:messenger/extensions/theme_data_ext.dart';
+import 'package:messenger/providers/chat_provider.dart';
+import 'package:messenger/generated/l10n.dart';
 
 class ChatTextField extends StatefulWidget {
   const ChatTextField({super.key});
@@ -27,7 +28,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final theme = Theme.of(context);
-    final settings = context.read<SettingsProvider>();
+    final settings = context.watch<SettingsProvider>();
 
     return Row(
       children: [
@@ -53,14 +54,11 @@ class _ChatTextFieldState extends State<ChatTextField> {
                     controller: _controller,
                     focusNode: _focusNode,
                     maxLines: null,
-                    onChanged: (_) {
-                      setState(() {});
-                    },
                     textInputAction: TextInputAction.newline,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: s.chat_screen_text_field_hint_text,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 16,
                         vertical: 12,
                       ),
@@ -68,14 +66,20 @@ class _ChatTextFieldState extends State<ChatTextField> {
                   ),
                 ),
 
-                if (_controller.text.isEmpty)
-                  IconButton(
-                    onPressed: () {
-                      // TODO: attach
-                    },
-                    icon: const Icon(Icons.attach_file_rounded),
-                    padding: const EdgeInsets.only(right: 4),
-                  ),
+                ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _controller,
+                  builder: (context, value, child) {
+                    return value.text.isEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              // TODO: attach
+                            },
+                            icon: const Icon(Icons.attach_file_rounded),
+                            padding: const EdgeInsets.only(right: 4),
+                          )
+                        : const SizedBox.shrink();
+                  },
+                ),
               ],
             ),
           ),
@@ -84,9 +88,12 @@ class _ChatTextFieldState extends State<ChatTextField> {
         /// Send Button
         ElevatedButton(
           onPressed: () {
+            final text = _controller.text.trim();
+            if (text.isEmpty) return;
+
+            context.read<ChatProvider>().sendMessage(text);
+
             _controller.clear();
-            _focusNode.unfocus();
-            // TODO: send message
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: settings.accentColor,

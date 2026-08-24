@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:messenger/models/app_settings.dart';
-import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/services/settings_service.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:path_provider/path_provider.dart';
+import 'package:messenger/repositories/hive_settings_repository.dart';
+import 'package:messenger/providers/settings_provider.dart';
+import 'package:messenger/providers/auth_provider.dart';
+import 'package:messenger/models/app_settings.dart';
 import 'package:messenger/generated/l10n.dart';
 import 'package:messenger/screens/home.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,27 +29,34 @@ void main() async {
   Hive.init(messengerDir.path);
   Hive.registerAdapter(AppSettingsAdapter());
 
-  runApp(const Messenger());
+  final Box<AppSettings> settingsBox = await Hive.openBox<AppSettings>(
+    "settings",
+  );
+
+  runApp(Messenger(settingsBox: settingsBox));
 }
 
 class Messenger extends StatelessWidget {
-  const Messenger({super.key});
+  final Box<AppSettings> settingsBox;
+
+  const Messenger({super.key, required this.settingsBox});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => SettingsProvider(SettingsService())..loadSettings(),
+          create: (_) => SettingsProvider(HiveSettingsRepository(settingsBox)),
         ),
+        ChangeNotifierProvider(create: (_) => AuthProvider()..login("current_user")),
       ],
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {
           return MaterialApp(
-            /// AppTitle
-            onGenerateTitle: (context) => S.of(context).appTitle,
+            // --- APP TITLE ---
+            onGenerateTitle: (context) => S.of(context).app_title,
 
-            /// Localization
+            // --- LOCALIZATION ---
             locale: Locale(settingsProvider.languageCode),
             supportedLocales: S.delegate.supportedLocales,
             localizationsDelegates: [
@@ -58,41 +66,24 @@ class Messenger extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
 
-            /// Themes
-            themeMode: settingsProvider.currentTheme,
+            // --- THEMES ---
+            themeMode: settingsProvider.currentTheme.toFlutter(),
 
-            /// Theme light
+            // --- THEME LIGHT ---
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: settingsProvider.accentColor,
                 brightness: Brightness.light,
               ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(10),
-                  backgroundColor: Color(0xFFF2F2F2),
-                  iconColor: Colors.black,
-                  shadowColor: Colors.transparent
-                ),
-              ),
               useMaterial3: true,
             ),
 
-            /// Theme dark
+            // --- THEME DARK ---
             darkTheme: ThemeData(
               scaffoldBackgroundColor: Color(0xFF1A1A1D),
               colorScheme: ColorScheme.fromSeed(
                 seedColor: settingsProvider.accentColor,
                 brightness: Brightness.dark,
-              ),
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(10),
-                  backgroundColor: Color(0xFF161616),
-                  iconColor: Colors.white,
-                ),
               ),
               useMaterial3: true,
             ),

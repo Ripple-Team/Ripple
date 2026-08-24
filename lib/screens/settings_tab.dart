@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:messenger/providers/settings_provider.dart';
+import 'package:messenger/utils/theme_mode.dart';
 import 'package:messenger/generated/l10n.dart';
-import 'package:messenger/utils/utils.dart';
+import 'package:messenger/utils/colors.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({super.key});
@@ -22,20 +23,20 @@ class SettingsTab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(s.settings_tab_themeMode_title),
-              DropdownButton<String>(
+              DropdownButton<AppThemeMode>(
                 mouseCursor: SystemMouseCursors.click,
-                value: settings.currentTheme.name,
+                value: settings.currentTheme,
                 items: [
                   DropdownMenuItem(
-                    value: "system",
+                    value: AppThemeMode.system,
                     child: Text(s.settings_tab_themeMode_system),
                   ),
                   DropdownMenuItem(
-                    value: "light",
+                    value: AppThemeMode.light,
                     child: Text(s.settings_tab_themeMode_light),
                   ),
                   DropdownMenuItem(
-                    value: "dark",
+                    value: AppThemeMode.dark,
                     child: Text(s.settings_tab_themeMode_dark),
                   ),
                 ],

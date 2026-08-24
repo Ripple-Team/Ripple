@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:messenger/widgets/chat_screen_widgets/chat_contact_info_widget.dart';
+import 'package:messenger/widgets/circle_icon_button.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
@@ -13,16 +14,16 @@ class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          ElevatedButton(
-            child: Icon(Icons.arrow_back_rounded, size: 25),
+          CircleIconButton(
+            icon: const Icon(Icons.arrow_back_rounded, size: 25),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          ChatContactInfoWidget(),
-          ElevatedButton(
+          const ChatContactInfoWidget(),
+          CircleIconButton(
+            icon: const Icon(Icons.more_vert_rounded, size: 25),
             onPressed: () {
               // TODO: more info
             },
-            child: Icon(Icons.more_vert_rounded, size: 25),
           ),
         ],
       ),

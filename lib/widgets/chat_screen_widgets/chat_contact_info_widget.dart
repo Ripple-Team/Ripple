@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/utils/utils.dart';
 
-class ChatContactInfoWidget extends StatefulWidget {
+import 'package:messenger/extensions/theme_data_ext.dart';
+
+class ChatContactInfoWidget extends StatelessWidget {
   const ChatContactInfoWidget({super.key});
 
-  @override
-  State<ChatContactInfoWidget> createState() => _ChatContactInfoWidgetState();
-}
-
-class _ChatContactInfoWidgetState extends State<ChatContactInfoWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -26,8 +22,8 @@ class _ChatContactInfoWidgetState extends State<ChatContactInfoWidget> {
         borderRadius: BorderRadius.circular(100),
         child: Row(
           children: [
-            Icon(Icons.account_circle_rounded, size: 50),
-            SizedBox(width: 12),
+            const Icon(Icons.account_circle_rounded, size: 50),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

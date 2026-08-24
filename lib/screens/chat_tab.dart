@@ -10,7 +10,7 @@ class ChatTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchWidget(),
+        const SearchWidget(),
         Expanded(child: ChatListWidget()),
       ],
     );

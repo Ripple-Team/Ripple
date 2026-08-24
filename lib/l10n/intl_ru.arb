@@ -1,12 +1,12 @@
 {
   "@@locale": "ru",
-  "appTitle": "Мессенджер",
+  "app_title": "Мессенджер",
   "bar_contacts": "Контакты",
   "bar_profile": "Профиль",
   "bar_chats": "Чаты",
   "bar_settings": "Настройки",
   "hint_search": "поиск",
-  "noChats": "Похоже у вас нет ни единого чата. \nНачните общаться с кем-нибудь!",
+  "no_chats": "Похоже у вас нет ни единого чата. \nНачните общаться с кем-нибудь!",
   "settings_tab_themeMode_title": "Тема",
   "settings_tab_themeMode_system": "системная",
   "settings_tab_themeMode_light": "светлая",
@@ -14,6 +14,6 @@
   "settings_tab_accentColor_title": "Акцентный цвет",
   "settings_tab_language_title": "Язык",
   "chat_screen_text_field_hint_text": "Сообщение...",
-  "english": "english",
-  "russian": "русский"
+  "english": "English",
+  "russian": "Русский"
 }

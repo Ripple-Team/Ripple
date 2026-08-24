@@ -11,10 +11,10 @@ class Home extends StatefulWidget {
   const Home({super.key});
 
   @override
-  State<Home> createState() => HomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   late final TabController _tabController;
 
   @override
@@ -41,8 +41,8 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
           children: [
             Center(child: Text(s.bar_contacts)),
             Center(child: Text(s.bar_profile)),
-            ChatTab(),
-            SettingsTab(),
+            const ChatTab(),
+            const SettingsTab(),
           ],
         ),
         bottomNavigationBar: TabBar(
