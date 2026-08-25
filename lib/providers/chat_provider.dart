@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:messenger/models/message.dart';
-import 'package:messenger/repositories/interfaces/message_repository.dart';
+import 'package:ripple/models/message.dart';
+import 'package:ripple/repositories/interfaces/message_repository.dart';
 
 class ChatProvider extends ChangeNotifier {
   StreamSubscription<List<Message>>? _subscription;
@@ -61,7 +61,6 @@ class ChatProvider extends ChangeNotifier {
   @override
   void dispose() {
     _subscription?.cancel();
-    _repository.dispose();
     super.dispose();
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:messenger/extensions/theme_data_ext.dart';
+import 'package:ripple/extensions/theme_data_ext.dart';
 
 class CircleIconButton extends StatelessWidget {
   final Icon icon;

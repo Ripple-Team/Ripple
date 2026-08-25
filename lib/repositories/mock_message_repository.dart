@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:messenger/models/message.dart';
-import 'package:messenger/repositories/interfaces/message_repository.dart';
+import 'package:ripple/repositories/interfaces/message_repository.dart';
+import 'package:ripple/models/message.dart';
 
 class MockMessageRepository implements MessageRepository {
   final _controller = StreamController<List<Message>>.broadcast();

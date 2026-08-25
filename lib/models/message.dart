@@ -1,4 +1,4 @@
-import 'package:messenger/utils/message_utils.dart';
+import 'package:ripple/utils/message_utils.dart';
 
 class Message {
   final String id;

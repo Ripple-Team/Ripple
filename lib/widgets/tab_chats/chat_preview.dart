@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/screens/chat_screen.dart';
+import 'package:ripple/screens/chat_screen.dart';
 
 // TODO: work
-class ChatPreview extends StatefulWidget {
-  const ChatPreview({super.key});
+class ChatPreview extends StatelessWidget {
+  final String chatId;
 
-  @override
-  State<ChatPreview> createState() => _ChatPreviewState();
-}
+  const ChatPreview({super.key, required this.chatId});
 
-class _ChatPreviewState extends State<ChatPreview> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -33,7 +30,7 @@ class _ChatPreviewState extends State<ChatPreview> {
       ),
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => const ChatScreen())
+          MaterialPageRoute(builder: (context) => ChatScreen(chatId: chatId)),
         );
       },
     );

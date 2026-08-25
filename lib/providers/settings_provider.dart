@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:messenger/repositories/interfaces/settings_repository.dart';
-import 'package:messenger/models/app_settings.dart';
-import 'package:messenger/utils/theme_mode.dart';
-import 'package:messenger/generated/l10n.dart';
+import 'package:ripple/repositories/interfaces/settings_repository.dart';
+import 'package:ripple/models/app_settings.dart';
+import 'package:ripple/utils/theme_mode.dart';
+import 'package:ripple/generated/l10n.dart';
 
 /// State manager for application settings.
 class SettingsProvider extends ChangeNotifier {

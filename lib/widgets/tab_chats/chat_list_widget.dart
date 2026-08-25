@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:messenger/generated/l10n.dart';
-import 'package:messenger/widgets/tab_chats/chat_preview.dart';
+import 'package:ripple/generated/l10n.dart';
+import 'package:ripple/widgets/tab_chats/chat_preview.dart';
 
 /// List all chats
 class ChatListWidget extends StatelessWidget {
@@ -15,7 +15,7 @@ class ChatListWidget extends StatelessWidget {
     return ListView.builder(
       itemCount: testItems.length,
       itemBuilder: (context, index) {
-        return ChatPreview();
+        return ChatPreview(chatId: "chat_123",); // TODO: real chat id
       },
     );
   }

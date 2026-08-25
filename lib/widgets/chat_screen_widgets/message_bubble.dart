@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:messenger/utils/message_utils.dart';
-import 'package:messenger/utils/time_utils.dart';
-import 'package:messenger/models/message.dart';
+import 'package:ripple/utils/message_utils.dart';
+import 'package:ripple/utils/time_utils.dart';
+import 'package:ripple/models/message.dart';
 
 class MessageBubble extends StatelessWidget {
   final Message message;

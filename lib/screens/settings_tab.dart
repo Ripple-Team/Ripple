@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/utils/theme_mode.dart';
-import 'package:messenger/generated/l10n.dart';
-import 'package:messenger/utils/colors.dart';
+import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/utils/theme_mode.dart';
+import 'package:ripple/generated/l10n.dart';
+import 'package:ripple/utils/colors.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({super.key});

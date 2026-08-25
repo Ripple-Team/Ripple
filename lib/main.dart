@@ -7,19 +7,22 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:messenger/repositories/hive_settings_repository.dart';
-import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/providers/auth_provider.dart';
-import 'package:messenger/models/app_settings.dart';
-import 'package:messenger/generated/l10n.dart';
-import 'package:messenger/screens/home.dart';
+import 'package:ripple/repositories/interfaces/message_repository.dart';
+import 'package:ripple/repositories/hive_settings_repository.dart';
+import 'package:ripple/repositories/mock_message_repository.dart';
+import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/providers/auth_provider.dart';
+import 'package:ripple/models/app_settings.dart';
+import 'package:ripple/utils/theme_mode.dart';
+import 'package:ripple/generated/l10n.dart';
+import 'package:ripple/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Path where hive can save data
   final appSupportDir = await getApplicationSupportDirectory();
-  final messengerDir = Directory(p.join(appSupportDir.path, "messenger"));
+  final messengerDir = Directory(p.join(appSupportDir.path, "ripple"));
 
   if (!await messengerDir.exists()) {
     await messengerDir.create(recursive: true);
@@ -28,6 +31,7 @@ void main() async {
   /// Init hive
   Hive.init(messengerDir.path);
   Hive.registerAdapter(AppSettingsAdapter());
+  Hive.registerAdapter(AppThemeModeAdapter());
 
   final Box<AppSettings> settingsBox = await Hive.openBox<AppSettings>(
     "settings",
@@ -48,7 +52,13 @@ class Messenger extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => SettingsProvider(HiveSettingsRepository(settingsBox)),
         ),
-        ChangeNotifierProvider(create: (_) => AuthProvider()..login("current_user")),
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider()..login("current_user"),
+        ),
+        Provider<MessageRepository>(
+          create: (_) => MockMessageRepository(),
+          dispose: (_, repository) => repository.dispose(),
+        ),
       ],
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, _) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:messenger/widgets/chat_screen_widgets/chat_contact_info_widget.dart';
-import 'package:messenger/widgets/circle_icon_button.dart';
+import 'package:ripple/widgets/chat_screen_widgets/chat_contact_info_widget.dart';
+import 'package:ripple/widgets/circle_icon_button.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});

@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
-import 'package:messenger/repositories/interfaces/settings_repository.dart';
-import 'package:messenger/models/app_settings.dart';
+import 'package:ripple/repositories/interfaces/settings_repository.dart';
+import 'package:ripple/models/app_settings.dart';
 
 class HiveSettingsRepository implements SettingsRepository {
   static const _settingsKey = 'app_settings';

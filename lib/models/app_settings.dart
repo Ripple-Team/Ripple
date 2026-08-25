@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import 'package:messenger/utils/theme_mode.dart';
+import 'package:ripple/utils/theme_mode.dart';
 
 part 'app_settings.g.dart';
 

@@ -1,4 +1,4 @@
-import 'package:messenger/models/message.dart';
+import 'package:ripple/models/message.dart';
 
 abstract class MessageRepository {
   Stream<List<Message>> getMessages(String chatId);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:messenger/widgets/tab_chats/chat_list_widget.dart';
-import 'package:messenger/widgets/home_screen/search_widget.dart';
+import 'package:ripple/widgets/tab_chats/chat_list_widget.dart';
+import 'package:ripple/widgets/home_screen/search_widget.dart';
 
 class ChatTab extends StatelessWidget {
   const ChatTab({super.key});

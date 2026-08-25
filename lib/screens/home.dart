@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:messenger/widgets/home_screen/bar_icon.dart';
-import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/screens/settings_tab.dart';
-import 'package:messenger/screens/chat_tab.dart';
-import 'package:messenger/generated/l10n.dart';
+import 'package:ripple/widgets/home_screen/bar_icon.dart';
+import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/screens/settings_tab.dart';
+import 'package:ripple/screens/chat_tab.dart';
+import 'package:ripple/generated/l10n.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

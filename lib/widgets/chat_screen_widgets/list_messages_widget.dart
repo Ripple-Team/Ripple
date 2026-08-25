@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:messenger/extensions/message_ext.dart';
+import 'package:ripple/extensions/message_ext.dart';
 import 'package:provider/provider.dart';
 
-import 'package:messenger/widgets/chat_screen_widgets/message_bubble.dart';
-import 'package:messenger/providers/auth_provider.dart';
-import 'package:messenger/providers/chat_provider.dart';
+import 'package:ripple/widgets/chat_screen_widgets/message_bubble.dart';
+import 'package:ripple/providers/auth_provider.dart';
+import 'package:ripple/providers/chat_provider.dart';
 
 class ListMessagesWidget extends StatefulWidget {
   const ListMessagesWidget({super.key});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:messenger/providers/settings_provider.dart';
-import 'package:messenger/extensions/theme_data_ext.dart';
-import 'package:messenger/providers/chat_provider.dart';
-import 'package:messenger/generated/l10n.dart';
+import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/extensions/theme_data_ext.dart';
+import 'package:ripple/providers/chat_provider.dart';
+import 'package:ripple/generated/l10n.dart';
 
 class ChatTextField extends StatefulWidget {
   const ChatTextField({super.key});
