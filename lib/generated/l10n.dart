@@ -315,6 +315,16 @@ class S {
     );
   }
 
+  /// `Logout`
+  String get settings_account_logout {
+    return Intl.message(
+      'Logout',
+      name: 'settings_account_logout',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Appearance`
   String get settings_appearance_title {
     return Intl.message(

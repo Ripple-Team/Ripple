@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ripple/providers/auth_provider.dart';
 
 import 'package:ripple/providers/settings_provider.dart';
 import 'package:ripple/generated/l10n.dart';
@@ -10,6 +11,7 @@ class AccountSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsProvider>();
+    final auth = context.watch<AuthProvider>();
     final theme = Theme.of(context);
     final s = S.of(context);
 
@@ -19,7 +21,22 @@ class AccountSettingsScreen extends StatelessWidget {
           title: Text(s.settings_account_title),
           backgroundColor: theme.scaffoldBackgroundColor,
         ),
-        body: ListView(children: []),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: ListView(
+            children: [
+              Text("Todo: account settings"), // TODO: account settings
+              ElevatedButton.icon(
+                onPressed: () {
+                  auth.logout();
+                  Navigator.pop(context);
+                },
+                label: Text(s.settings_account_logout),
+                icon: Icon(Icons.logout_rounded),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

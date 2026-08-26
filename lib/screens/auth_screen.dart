@@ -136,7 +136,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ],
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

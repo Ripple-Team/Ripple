@@ -55,5 +55,6 @@ class MockMessageRepository implements MessageRepository {
     _controller.add(_mockMessages);
   }
 
+  @override
   void dispose() => _controller.close();
 }

@@ -29,6 +29,7 @@
   "settings_tab_language_title": "Язык",
   "settings_account_title": "Аккаунт",
   "settings_account_subtitle": "Имя пользователя, «О себе»",
+  "settings_account_logout": "Выйти с аккаунта",
   "settings_appearance_title": "Оформление",
   "settings_appearance_subtitle": "Тема, акцентный цвет",
   "chat_screen_text_field_hint_text": "Сообщение...",

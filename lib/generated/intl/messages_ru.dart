@@ -71,6 +71,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Похоже у вас нет ни единого чата. \nНачните общаться с кем-нибудь!",
     ),
     "russian": MessageLookupByLibrary.simpleMessage("Русский"),
+    "settings_account_logout": MessageLookupByLibrary.simpleMessage(
+      "Выйти с аккаунта",
+    ),
     "settings_account_subtitle": MessageLookupByLibrary.simpleMessage(
       "Имя пользователя, «О себе»",
     ),

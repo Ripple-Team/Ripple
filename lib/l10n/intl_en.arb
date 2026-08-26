@@ -29,6 +29,7 @@
   "settings_tab_language_title": "Language",
   "settings_account_title": "Account",
   "settings_account_subtitle": "Username, «about»",
+  "settings_account_logout": "Logout",
   "settings_appearance_title": "Appearance",
   "settings_appearance_subtitle": "Theme mode, accent color",
   "chat_screen_text_field_hint_text": "Message...",

@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no chat yet. \nStart chat with somebody!",
     ),
     "russian": MessageLookupByLibrary.simpleMessage("Русский"),
+    "settings_account_logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "settings_account_subtitle": MessageLookupByLibrary.simpleMessage(
       "Username, «about»",
     ),
