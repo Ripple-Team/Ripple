@@ -55,9 +55,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `messenger`
+  /// `Ripple`
   String get app_title {
-    return Intl.message('messenger', name: 'app_title', desc: '', args: []);
+    return Intl.message('Ripple', name: 'app_title', desc: '', args: []);
   }
 
   /// `Contacts`
@@ -90,6 +90,146 @@ class S {
     return Intl.message(
       'You have no chat yet. \nStart chat with somebody!',
       name: 'no_chats',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get auth_screen_title {
+    return Intl.message(
+      'Sign in',
+      name: 'auth_screen_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username`
+  String get auth_screen_username_label {
+    return Intl.message(
+      'Username',
+      name: 'auth_screen_username_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get auth_screen_password_label {
+    return Intl.message(
+      'Password',
+      name: 'auth_screen_password_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in`
+  String get auth_screen_submit_button {
+    return Intl.message(
+      'Sign in',
+      name: 'auth_screen_submit_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your username and password`
+  String get auth_screen_error_empty_credentials {
+    return Intl.message(
+      'Enter your username and password',
+      name: 'auth_screen_error_empty_credentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Couldn't sign in. Please try again`
+  String get auth_screen_error_unknown {
+    return Intl.message(
+      'Couldn\'t sign in. Please try again',
+      name: 'auth_screen_error_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get auth_screen_register_title {
+    return Intl.message(
+      'Sign up',
+      name: 'auth_screen_register_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign up`
+  String get auth_screen_register_button {
+    return Intl.message(
+      'Sign up',
+      name: 'auth_screen_register_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm password`
+  String get auth_screen_confirm_password_label {
+    return Intl.message(
+      'Confirm password',
+      name: 'auth_screen_confirm_password_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No account? Sign up`
+  String get auth_screen_toggle_to_register {
+    return Intl.message(
+      'No account? Sign up',
+      name: 'auth_screen_toggle_to_register',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already have account? Sign in`
+  String get auth_screen_toggle_to_login {
+    return Intl.message(
+      'Already have account? Sign in',
+      name: 'auth_screen_toggle_to_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wrong username or password`
+  String get auth_screen_error_invalid_credentials {
+    return Intl.message(
+      'Wrong username or password',
+      name: 'auth_screen_error_invalid_credentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This username is already taken`
+  String get auth_screen_error_username_taken {
+    return Intl.message(
+      'This username is already taken',
+      name: 'auth_screen_error_username_taken',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Passwords don't match`
+  String get auth_screen_passwords_dont_match {
+    return Intl.message(
+      'Passwords don\'t match',
+      name: 'auth_screen_passwords_dont_match',
       desc: '',
       args: [],
     );
@@ -150,6 +290,46 @@ class S {
     return Intl.message(
       'Language',
       name: 'settings_tab_language_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account`
+  String get settings_account_title {
+    return Intl.message(
+      'Account',
+      name: 'settings_account_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Username, «about»`
+  String get settings_account_subtitle {
+    return Intl.message(
+      'Username, «about»',
+      name: 'settings_account_subtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Appearance`
+  String get settings_appearance_title {
+    return Intl.message(
+      'Appearance',
+      name: 'settings_appearance_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Theme mode, accent color`
+  String get settings_appearance_subtitle {
+    return Intl.message(
+      'Theme mode, accent color',
+      name: 'settings_appearance_subtitle',
       desc: '',
       args: [],
     );

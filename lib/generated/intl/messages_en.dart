@@ -22,7 +22,46 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "app_title": MessageLookupByLibrary.simpleMessage("messenger"),
+    "app_title": MessageLookupByLibrary.simpleMessage("Ripple"),
+    "auth_screen_confirm_password_label": MessageLookupByLibrary.simpleMessage(
+      "Confirm password",
+    ),
+    "auth_screen_error_empty_credentials": MessageLookupByLibrary.simpleMessage(
+      "Enter your username and password",
+    ),
+    "auth_screen_error_invalid_credentials":
+        MessageLookupByLibrary.simpleMessage("Wrong username or password"),
+    "auth_screen_error_unknown": MessageLookupByLibrary.simpleMessage(
+      "Couldn\'t sign in. Please try again",
+    ),
+    "auth_screen_error_username_taken": MessageLookupByLibrary.simpleMessage(
+      "This username is already taken",
+    ),
+    "auth_screen_password_label": MessageLookupByLibrary.simpleMessage(
+      "Password",
+    ),
+    "auth_screen_passwords_dont_match": MessageLookupByLibrary.simpleMessage(
+      "Passwords don\'t match",
+    ),
+    "auth_screen_register_button": MessageLookupByLibrary.simpleMessage(
+      "Sign up",
+    ),
+    "auth_screen_register_title": MessageLookupByLibrary.simpleMessage(
+      "Sign up",
+    ),
+    "auth_screen_submit_button": MessageLookupByLibrary.simpleMessage(
+      "Sign in",
+    ),
+    "auth_screen_title": MessageLookupByLibrary.simpleMessage("Sign in"),
+    "auth_screen_toggle_to_login": MessageLookupByLibrary.simpleMessage(
+      "Already have account? Sign in",
+    ),
+    "auth_screen_toggle_to_register": MessageLookupByLibrary.simpleMessage(
+      "No account? Sign up",
+    ),
+    "auth_screen_username_label": MessageLookupByLibrary.simpleMessage(
+      "Username",
+    ),
     "bar_chats": MessageLookupByLibrary.simpleMessage("Chats"),
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Profile"),
@@ -36,6 +75,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "You have no chat yet. \nStart chat with somebody!",
     ),
     "russian": MessageLookupByLibrary.simpleMessage("Русский"),
+    "settings_account_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Username, «about»",
+    ),
+    "settings_account_title": MessageLookupByLibrary.simpleMessage("Account"),
+    "settings_appearance_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Theme mode, accent color",
+    ),
+    "settings_appearance_title": MessageLookupByLibrary.simpleMessage(
+      "Appearance",
+    ),
     "settings_tab_accentColor_title": MessageLookupByLibrary.simpleMessage(
       "AccentColor",
     ),

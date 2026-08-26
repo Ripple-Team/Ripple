@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:ripple/screens/settings_screens/appearance_settings_screen.dart';
+import 'package:ripple/screens/settings_screens/account_settings_screen.dart';
+import 'package:ripple/widgets/settings_widgets/settings_section.dart';
 import 'package:ripple/providers/settings_provider.dart';
-import 'package:ripple/utils/theme_mode.dart';
+import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/generated/l10n.dart';
-import 'package:ripple/utils/colors.dart';
 
 class SettingsTab extends StatelessWidget {
   const SettingsTab({super.key});
@@ -12,85 +14,86 @@ class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsProvider>();
+    final auth = context.watch<AuthProvider>();
     final s = S.of(context);
+    final theme = Theme.of(context);
 
-    return Padding(
-      padding: EdgeInsetsGeometry.all(10),
-      child: Column(
-        children: [
-          /// Theme
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ListView(
+      children: [
+        // --- HEADER ---
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Column(
             children: [
-              Text(s.settings_tab_themeMode_title),
-              DropdownButton<AppThemeMode>(
-                mouseCursor: SystemMouseCursors.click,
-                value: settings.currentTheme,
-                items: [
-                  DropdownMenuItem(
-                    value: AppThemeMode.system,
-                    child: Text(s.settings_tab_themeMode_system),
-                  ),
-                  DropdownMenuItem(
-                    value: AppThemeMode.light,
-                    child: Text(s.settings_tab_themeMode_light),
-                  ),
-                  DropdownMenuItem(
-                    value: AppThemeMode.dark,
-                    child: Text(s.settings_tab_themeMode_dark),
-                  ),
-                ],
-                onChanged: (newValue) => settings.setTheme(newValue!),
+              const Icon(Icons.account_circle_rounded, size: 100),
+              // TODO: profile image
+              const SizedBox(height: 8),
+              Text(
+                auth.currentUserId ?? "none",
+                style: theme.textTheme.titleLarge,
               ),
             ],
           ),
-          const Divider(),
+        ),
 
-          /// Accent color
-          Text(s.settings_tab_accentColor_title),
-          SizedBox(height: 15),
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: accentColors.map((color) {
-              return InkWell(
-                mouseCursor: SystemMouseCursors.click,
-                onTap: () => settings.setAccentColor(color),
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
-                    border: settings.accentColor == color
-                        ? Border.all(color: Colors.white, width: 2)
-                        : null,
-                  ),
+        // --- SETTINGS ---
+        SettingsSection(
+          children: [
+            // Account
+            ListTile(
+              leading: const Icon(Icons.account_circle_rounded, size: 30),
+              title: Text(s.settings_account_title),
+              subtitle: Text(s.settings_account_subtitle),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AccountSettingsScreen(),
                 ),
-              );
-            }).toList(),
-          ),
-          const Divider(),
-
-          /// Language
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(s.settings_tab_language_title),
-              DropdownButton<String>(
-                mouseCursor: SystemMouseCursors.click,
-                value: settings.languageCode,
-                items: [
-                  DropdownMenuItem(value: "en", child: Text(s.english)),
-                  DropdownMenuItem(value: "ru", child: Text(s.russian)),
-                ],
-                onChanged: (newValue) => settings.setLanguage(newValue!),
               ),
-            ],
-          ),
-          const Divider(),
+            ),
+
+            // Theme
+            ListTile(
+              leading: const Icon(Icons.format_paint_outlined),
+              title: Text(s.settings_appearance_title),
+              subtitle: Text(s.settings_appearance_subtitle),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const AppearanceSettingsScreen(),
+                ),
+              ),
+            ),
+
+            const Divider(height: 1, indent: 16, endIndent: 16),
+
+            // Language
+            _buildLanguageSettings(context, s, settings),
+          ],
+        ),
+
+        const SizedBox(height: 24),
+      ],
+    );
+  }
+
+  Widget _buildLanguageSettings(
+    BuildContext context,
+    S s,
+    SettingsProvider settings,
+  ) {
+    return ListTile(
+      title: Text(s.settings_tab_language_title),
+      trailing: DropdownButton<String>(
+        underline: const SizedBox(),
+        value: settings.languageCode,
+        items: [
+          DropdownMenuItem(value: "en", child: Text(s.english)),
+          DropdownMenuItem(value: "ru", child: Text(s.russian)),
         ],
+        onChanged: (newValue) => settings.setLanguage(newValue!),
       ),
     );
   }

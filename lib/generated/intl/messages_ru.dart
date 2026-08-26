@@ -22,7 +22,42 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-    "app_title": MessageLookupByLibrary.simpleMessage("Мессенджер"),
+    "app_title": MessageLookupByLibrary.simpleMessage("Ripple"),
+    "auth_screen_confirm_password_label": MessageLookupByLibrary.simpleMessage(
+      "Повторите пароль",
+    ),
+    "auth_screen_error_empty_credentials": MessageLookupByLibrary.simpleMessage(
+      "Введите логин и пароль",
+    ),
+    "auth_screen_error_invalid_credentials":
+        MessageLookupByLibrary.simpleMessage("Неверный логин или пароль"),
+    "auth_screen_error_unknown": MessageLookupByLibrary.simpleMessage(
+      "Не удалось войти. Попробуйте ещё раз",
+    ),
+    "auth_screen_error_username_taken": MessageLookupByLibrary.simpleMessage(
+      "Такой логин уже занят",
+    ),
+    "auth_screen_password_label": MessageLookupByLibrary.simpleMessage(
+      "Пароль",
+    ),
+    "auth_screen_passwords_dont_match": MessageLookupByLibrary.simpleMessage(
+      "Пароли не совпадают",
+    ),
+    "auth_screen_register_button": MessageLookupByLibrary.simpleMessage(
+      "Зарегистрироваться",
+    ),
+    "auth_screen_register_title": MessageLookupByLibrary.simpleMessage(
+      "Регистрация",
+    ),
+    "auth_screen_submit_button": MessageLookupByLibrary.simpleMessage("Войти"),
+    "auth_screen_title": MessageLookupByLibrary.simpleMessage("Вход"),
+    "auth_screen_toggle_to_login": MessageLookupByLibrary.simpleMessage(
+      "Уже есть аккаунт? Войти",
+    ),
+    "auth_screen_toggle_to_register": MessageLookupByLibrary.simpleMessage(
+      "Нет аккаунта? Зарегистрироваться",
+    ),
+    "auth_screen_username_label": MessageLookupByLibrary.simpleMessage("Логин"),
     "bar_chats": MessageLookupByLibrary.simpleMessage("Чаты"),
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Контакты"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Профиль"),
@@ -36,6 +71,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "Похоже у вас нет ни единого чата. \nНачните общаться с кем-нибудь!",
     ),
     "russian": MessageLookupByLibrary.simpleMessage("Русский"),
+    "settings_account_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Имя пользователя, «О себе»",
+    ),
+    "settings_account_title": MessageLookupByLibrary.simpleMessage("Аккаунт"),
+    "settings_appearance_subtitle": MessageLookupByLibrary.simpleMessage(
+      "Тема, акцентный цвет",
+    ),
+    "settings_appearance_title": MessageLookupByLibrary.simpleMessage(
+      "Оформление",
+    ),
     "settings_tab_accentColor_title": MessageLookupByLibrary.simpleMessage(
       "Акцентный цвет",
     ),

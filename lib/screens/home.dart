@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 
 import 'package:ripple/widgets/home_screen/bar_icon.dart';
 import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/screens/contacts_bar.dart';
 import 'package:ripple/screens/settings_tab.dart';
+import 'package:ripple/screens/profile_tab.dart';
 import 'package:ripple/screens/chat_tab.dart';
 import 'package:ripple/generated/l10n.dart';
 
@@ -39,8 +41,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         body: TabBarView(
           controller: _tabController,
           children: [
-            Center(child: Text(s.bar_contacts)),
-            Center(child: Text(s.bar_profile)),
+            const ContactsBar(),
+            const ProfileTab(),
             const ChatTab(),
             const SettingsTab(),
           ],

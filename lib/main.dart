@@ -8,11 +8,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:ripple/repositories/interfaces/message_repository.dart';
+import 'package:ripple/repositories/interfaces/session_repository.dart';
+import 'package:ripple/repositories/interfaces/auth_repository.dart';
 import 'package:ripple/repositories/hive_settings_repository.dart';
 import 'package:ripple/repositories/mock_message_repository.dart';
+import 'package:ripple/repositories/hive_session_repository.dart';
+import 'package:ripple/repositories/mock_auth_repository.dart';
 import 'package:ripple/providers/settings_provider.dart';
 import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/models/app_settings.dart';
+import 'package:ripple/screens/auth_screen.dart';
 import 'package:ripple/utils/theme_mode.dart';
 import 'package:ripple/generated/l10n.dart';
 import 'package:ripple/screens/home.dart';
@@ -36,14 +41,20 @@ void main() async {
   final Box<AppSettings> settingsBox = await Hive.openBox<AppSettings>(
     "settings",
   );
+  final Box<String> sessionBox = await Hive.openBox("session");
 
-  runApp(Messenger(settingsBox: settingsBox));
+  runApp(Messenger(settingsBox: settingsBox, sessionBox: sessionBox));
 }
 
 class Messenger extends StatelessWidget {
   final Box<AppSettings> settingsBox;
+  final Box<String> sessionBox;
 
-  const Messenger({super.key, required this.settingsBox});
+  const Messenger({
+    super.key,
+    required this.settingsBox,
+    required this.sessionBox,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +63,23 @@ class Messenger extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => SettingsProvider(HiveSettingsRepository(settingsBox)),
         ),
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider()..login("current_user"),
+        Provider<AuthRepository>(create: (_) => MockAuthRepository()),
+        Provider<SessionRepository>(
+          create: (_) => HiveSessionRepository(sessionBox),
         ),
         Provider<MessageRepository>(
           create: (_) => MockMessageRepository(),
           dispose: (_, repository) => repository.dispose(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(
+            context.read<AuthRepository>(),
+            context.read<SessionRepository>(),
+          ),
+        ),
       ],
-      child: Consumer<SettingsProvider>(
-        builder: (context, settingsProvider, _) {
+      child: Consumer2<SettingsProvider, AuthProvider>(
+        builder: (context, settingsProvider, auth, _) {
           return MaterialApp(
             // --- APP TITLE ---
             onGenerateTitle: (context) => S.of(context).app_title,
@@ -98,7 +116,7 @@ class Messenger extends StatelessWidget {
               useMaterial3: true,
             ),
 
-            home: const Home(),
+            home: auth.isLoggedIn ? const Home() : const AuthScreen(),
           );
         },
       ),
