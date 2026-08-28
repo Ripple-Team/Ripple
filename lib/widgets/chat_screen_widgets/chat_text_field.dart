@@ -6,6 +6,10 @@ import 'package:ripple/extensions/theme_data_ext.dart';
 import 'package:ripple/providers/chat_provider.dart';
 import 'package:ripple/generated/l10n.dart';
 
+/// Text input field for sending messages in a chat.
+///
+/// Shows emoji and attachment buttons when empty,
+/// and a send button when text is entered.
 class ChatTextField extends StatefulWidget {
   const ChatTextField({super.key});
 
@@ -16,6 +20,8 @@ class ChatTextField extends StatefulWidget {
 class _ChatTextFieldState extends State<ChatTextField> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+
+  static const double _maxInputHeight = 140;
 
   @override
   void dispose() {
@@ -31,61 +37,66 @@ class _ChatTextFieldState extends State<ChatTextField> {
     final settings = context.watch<SettingsProvider>();
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        /// Text Field
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: theme.secondaryBackground,
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    // TODO: emoji
-                  },
-                  icon: const Icon(Icons.emoji_emotions_outlined),
-                  padding: const EdgeInsets.only(left: 4),
-                ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: _maxInputHeight),
+            child: Container(
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondaryBackground,
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      // TODO: emoji
+                    },
+                    icon: const Icon(Icons.emoji_emotions_outlined),
+                    padding: const EdgeInsets.only(left: 4),
+                  ),
 
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    maxLines: null,
-                    textInputAction: TextInputAction.newline,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: s.chat_screen_text_field_hint_text,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      focusNode: _focusNode,
+                      maxLines: null,
+                      minLines: 1,
+                      textInputAction: TextInputAction.newline,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: s.chat_screen_text_field_hint_text,
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                       ),
                     ),
                   ),
-                ),
 
-                ValueListenableBuilder<TextEditingValue>(
-                  valueListenable: _controller,
-                  builder: (context, value, child) {
-                    return value.text.isEmpty
-                        ? IconButton(
-                            onPressed: () {
-                              // TODO: attach
-                            },
-                            icon: const Icon(Icons.attach_file_rounded),
-                            padding: const EdgeInsets.only(right: 4),
-                          )
-                        : const SizedBox.shrink();
-                  },
-                ),
-              ],
+                  ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: _controller,
+                    builder: (context, value, child) {
+                      return value.text.isEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                // TODO: attach
+                              },
+                              icon: const Icon(Icons.attach_file_rounded),
+                              padding: const EdgeInsets.only(right: 4),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
 
-        /// Send Button
+        // Send Button
         ElevatedButton(
           onPressed: () {
             final text = _controller.text.trim();

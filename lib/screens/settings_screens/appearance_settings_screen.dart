@@ -7,6 +7,10 @@ import 'package:ripple/utils/theme_mode.dart';
 import 'package:ripple/generated/l10n.dart';
 import 'package:ripple/utils/colors.dart';
 
+/// Screen for customizing the app's appearance.
+///
+/// Allows the user to pick a theme mode (system/light/dark)
+/// and an accent color from the predefined [accentColors] palette.
 class AppearanceSettingsScreen extends StatelessWidget {
   const AppearanceSettingsScreen({super.key});
 
@@ -26,8 +30,8 @@ class AppearanceSettingsScreen extends StatelessWidget {
           children: [
             SettingsSection(
               children: [
-                _buildThemeMode(context, s, settings), // Theme mode
-                _buildAccentColors(context, s, settings), // Accent Color
+                _buildThemeMode(context, s, settings),
+                _buildAccentColors(context, s, settings),
               ],
             ),
           ],

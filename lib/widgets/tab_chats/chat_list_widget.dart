@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:ripple/generated/l10n.dart';
 import 'package:ripple/widgets/tab_chats/chat_preview.dart';
 
-/// List all chats
+/// Displays the list of user's chat conversations.
+///
+/// Shows a placeholder message when no chats exist.
 class ChatListWidget extends StatelessWidget {
   const ChatListWidget({super.key});
 

@@ -20,7 +20,7 @@ class SettingsTab extends StatelessWidget {
 
     return ListView(
       children: [
-        // --- HEADER ---
+        // Header
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: Column(
@@ -36,7 +36,7 @@ class SettingsTab extends StatelessWidget {
           ),
         ),
 
-        // --- SETTINGS ---
+        // Settings
         SettingsSection(
           children: [
             // Account
@@ -69,7 +69,6 @@ class SettingsTab extends StatelessWidget {
 
             const Divider(height: 1, indent: 16, endIndent: 16),
 
-            // Language
             _buildLanguageSettings(context, s, settings),
           ],
         ),

@@ -4,20 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:ripple/models/message.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 
+/// Manages the state of a single chat conversation.
+///
+/// Subscribes to a stream of messages from [MessageRepository]
+/// and provides methods to send new messages with optimistic UI updates.
 class ChatProvider extends ChangeNotifier {
   StreamSubscription<List<Message>>? _subscription;
   final MessageRepository _repository;
   final String _chatId;
+  final String _currentUserId;
 
   List<Message> _messages = [];
   bool _isLoading = true;
 
-  // --- GETTERS ---
+  /// The list of messages in this conversation, ordered chronologically.
   List<Message> get messages => _messages;
 
+  /// Whether messages are currently being loaded from the repository.
   bool get isLoading => _isLoading;
 
-  ChatProvider(this._repository, this._chatId) {
+  /// Creates a [ChatProvider] for the given [chatId] and starts listening
+  /// to incoming messages.
+  ChatProvider(this._repository, this._chatId, this._currentUserId) {
     _listenToMessages();
   }
 
@@ -38,20 +46,24 @@ class ChatProvider extends ChangeNotifier {
         );
   }
 
+  /// Sends a new message with an optimistic UI update.
+  ///
+  /// A temporary message is immediately added to [messages]. If the
+  /// repository call fails, the temporary message is removed.
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
     final tempMsg = Message(
       id: "temp_${DateTime.now().millisecondsSinceEpoch}",
       text: text,
-      senderId: "current_user",
+      senderId: _currentUserId,
       time: DateTime.now(),
     );
     _messages = [..._messages, tempMsg];
     notifyListeners();
 
     try {
-      await _repository.sendMessage(_chatId, text);
+      await _repository.sendMessage(_chatId, text, _currentUserId);
     } catch (e) {
       _messages = _messages.where((msg) => msg.id != tempMsg.id).toList();
       notifyListeners();

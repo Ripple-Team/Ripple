@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:ripple/extensions/theme_data_ext.dart';
 
+/// Displays the chat partner's avatar, name, and last-seen status.
+///
+/// Tapping navigates to the partner's profile screen.
 class ChatContactInfoWidget extends StatelessWidget {
   const ChatContactInfoWidget({super.key});
 
@@ -12,7 +15,7 @@ class ChatContactInfoWidget extends StatelessWidget {
     return Container(
       width: 250,
       decoration: BoxDecoration(
-        color: theme.secondaryBackground,
+        color: theme.colorScheme.secondaryBackground,
         borderRadius: BorderRadius.circular(100),
       ),
       child: InkWell(

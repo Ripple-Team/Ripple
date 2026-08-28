@@ -25,7 +25,7 @@ import 'package:ripple/screens/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Path where hive can save data
+  // Isolate Hive storage in dedicated subfolder
   final appSupportDir = await getApplicationSupportDirectory();
   final messengerDir = Directory(p.join(appSupportDir.path, "ripple"));
 
@@ -33,7 +33,6 @@ void main() async {
     await messengerDir.create(recursive: true);
   }
 
-  /// Init hive
   Hive.init(messengerDir.path);
   Hive.registerAdapter(AppSettingsAdapter());
   Hive.registerAdapter(AppThemeModeAdapter());
@@ -46,6 +45,10 @@ void main() async {
   runApp(Messenger(settingsBox: settingsBox, sessionBox: sessionBox));
 }
 
+/// The root widget of the Ripple application.
+///
+/// Configures global providers, localization, and themes before
+/// delegating to either the [AuthScreen] or [Home] screen.
 class Messenger extends StatelessWidget {
   final Box<AppSettings> settingsBox;
   final Box<String> sessionBox;
@@ -81,10 +84,8 @@ class Messenger extends StatelessWidget {
       child: Consumer2<SettingsProvider, AuthProvider>(
         builder: (context, settingsProvider, auth, _) {
           return MaterialApp(
-            // --- APP TITLE ---
             onGenerateTitle: (context) => S.of(context).app_title,
 
-            // --- LOCALIZATION ---
             locale: Locale(settingsProvider.languageCode),
             supportedLocales: S.delegate.supportedLocales,
             localizationsDelegates: [
@@ -94,10 +95,8 @@ class Messenger extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
 
-            // --- THEMES ---
             themeMode: settingsProvider.currentTheme.toFlutter(),
 
-            // --- THEME LIGHT ---
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(
                 seedColor: settingsProvider.accentColor,
@@ -106,7 +105,6 @@ class Messenger extends StatelessWidget {
               useMaterial3: true,
             ),
 
-            // --- THEME DARK ---
             darkTheme: ThemeData(
               scaffoldBackgroundColor: Color(0xFF1A1A1D),
               colorScheme: ColorScheme.fromSeed(

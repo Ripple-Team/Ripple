@@ -1,11 +1,15 @@
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 
+/// Application theme mode that can be persisted in Hive.
+///
+/// Maps to Flutter's [ThemeMode] via [toFlutter] method.
 enum AppThemeMode {
   system,
   light,
   dark;
 
+  /// Converts this enum to Flutter's [ThemeMode].
   ThemeMode toFlutter() => switch (this) {
     AppThemeMode.system => ThemeMode.system,
     AppThemeMode.light => ThemeMode.light,
@@ -13,37 +17,22 @@ enum AppThemeMode {
   };
 }
 
+/// Hive type adapter for [AppThemeMode] enum.
 class AppThemeModeAdapter extends TypeAdapter<AppThemeMode> {
   @override
   final int typeId = 1;
 
   @override
   AppThemeMode read(BinaryReader reader) {
-    switch (reader.readByte()) {
-      case 0:
-        return AppThemeMode.system;
-      case 1:
-        return AppThemeMode.light;
-      case 2:
-        return AppThemeMode.dark;
-      default:
-        return AppThemeMode.system;
-    }
+    final byte = reader.readByte();
+    return byte < AppThemeMode.values.length
+        ? AppThemeMode.values[byte]
+        : AppThemeMode.system;
   }
 
   @override
   void write(BinaryWriter writer, AppThemeMode obj) {
-    switch (obj) {
-      case AppThemeMode.system:
-        writer.writeByte(0);
-        break;
-      case AppThemeMode.light:
-        writer.writeByte(1);
-        break;
-      case AppThemeMode.dark:
-        writer.writeByte(2);
-        break;
-    }
+    writer.writeByte(obj.index);
   }
 
   @override
@@ -52,7 +41,5 @@ class AppThemeModeAdapter extends TypeAdapter<AppThemeMode> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AppThemeModeAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      other is AppThemeModeAdapter && typeId == other.typeId;
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:ripple/generated/l10n.dart';
 
+/// Placeholder tab for the user's profile.
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 

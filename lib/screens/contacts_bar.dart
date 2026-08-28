@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:ripple/generated/l10n.dart';
 
+/// Placeholder tab showing the contacts list.
 class ContactsBar extends StatelessWidget {
   const ContactsBar({super.key});
 

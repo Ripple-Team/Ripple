@@ -2,6 +2,9 @@ import 'package:hive/hive.dart';
 
 import 'package:ripple/repositories/interfaces/session_repository.dart';
 
+/// Hive-backed implementation of [SessionRepository].
+///
+/// Stores the user ID as a single string entry under the key [_userIdKey].
 class HiveSessionRepository implements SessionRepository {
   static const _userIdKey = 'user_id';
   final Box<String> _box;

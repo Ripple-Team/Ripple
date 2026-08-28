@@ -5,6 +5,10 @@ import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/providers/settings_provider.dart';
 import 'package:ripple/generated/l10n.dart';
 
+/// Screen for managing the current user's account.
+///
+/// Currently contains only a logout button; profile editing
+/// will be added later (see TODO).
 class AccountSettingsScreen extends StatelessWidget {
   const AccountSettingsScreen({super.key});
 

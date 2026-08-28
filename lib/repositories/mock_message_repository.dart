@@ -1,8 +1,15 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/models/message.dart';
 
+/// In-memory mock of [MessageRepository] for development and testing.
+///
+/// Emits a pre-populated list of mock messages on [getMessages] subscription
+/// with a short simulated network delay.
+@visibleForTesting
 class MockMessageRepository implements MessageRepository {
   final _controller = StreamController<List<Message>>.broadcast();
 
@@ -16,7 +23,7 @@ class MockMessageRepository implements MessageRepository {
     Message(
       id: "2",
       text: "Нормально, а у тебя как? :3",
-      senderId: "current_user",
+      senderId: "gg",
       time: DateTime.now().subtract(const Duration(minutes: 4)),
     ),
     Message(
@@ -36,23 +43,27 @@ class MockMessageRepository implements MessageRepository {
   @override
   Stream<List<Message>> getMessages(String chatId) {
     Future.delayed(const Duration(milliseconds: 300), () {
-      _controller.add(_mockMessages);
+      if (!_controller.isClosed) {
+        _controller.add(List.unmodifiable(_mockMessages));
+      }
     });
     return _controller.stream;
   }
 
   @override
-  Future<void> sendMessage(String chatId, String text) async {
+  Future<void> sendMessage(String chatId, String text, String senderId) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final newMsg = Message(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       text: text,
-      senderId: "current_user",
+      senderId: senderId,
       time: DateTime.now(),
     );
 
     _mockMessages.add(newMsg);
-    _controller.add(_mockMessages);
+    if (!_controller.isClosed) {
+      _controller.add(List.unmodifiable(_mockMessages));
+    }
   }
 
   @override

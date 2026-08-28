@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:ripple/extensions/theme_data_ext.dart';
 
+/// Groups multiple settings rows into a rounded card container.
 class SettingsSection extends StatelessWidget {
+  /// The settings rows to display inside the card.
   final List<Widget> children;
 
   const SettingsSection({super.key, required this.children});
@@ -14,7 +16,7 @@ class SettingsSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Card(
-        // color: theme.secondaryBackground,
+        color: theme.colorScheme.secondaryBackground,
         clipBehavior: Clip.antiAlias,
         margin: EdgeInsets.zero,
         child: Column(children: children),

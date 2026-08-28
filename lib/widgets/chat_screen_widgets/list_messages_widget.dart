@@ -6,6 +6,10 @@ import 'package:ripple/widgets/chat_screen_widgets/message_bubble.dart';
 import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/providers/chat_provider.dart';
 
+/// Scrollable list of chat messages with automatic bottom-scrolling.
+///
+/// Groups consecutive messages from the same sender visually
+/// by adjusting the bubble border radius.
 class ListMessagesWidget extends StatefulWidget {
   const ListMessagesWidget({super.key});
 
@@ -61,7 +65,6 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
               previousMessage.senderId == message.senderId;
 
           final isMe = message.isMine(auth.currentUserId ?? '');
-
           return MessageBubble(
             message: message,
             isConsecutive: isConsecutive,

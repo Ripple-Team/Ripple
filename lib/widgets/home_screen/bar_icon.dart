@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+/// Tab icon with a title, used in the home screen's bottom navigation bar.
 class BarIcon extends StatelessWidget {
+  /// Title displayed below the icon.
   final String title;
+
+  /// Icon to display.
   final Icon icon;
 
   const BarIcon({super.key, required this.title, required this.icon});

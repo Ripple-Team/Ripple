@@ -1,7 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:ripple/repositories/interfaces/auth_repository.dart';
 
+/// In-memory mock of [AuthRepository] for development and testing.
+///
+/// Stores users in a plain [Map], so data is lost on app restart.
+/// Passwords are stored in plain text - this is intentional for a mock.
+@visibleForTesting
 class MockAuthRepository implements AuthRepository {
-  // TODO: real users
   final Map<String, String> _users = {};
 
   @override

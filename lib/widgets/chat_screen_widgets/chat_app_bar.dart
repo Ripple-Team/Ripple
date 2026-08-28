@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ripple/widgets/chat_screen_widgets/chat_contact_info_widget.dart';
 import 'package:ripple/widgets/circle_icon_button.dart';
 
+/// Custom app bar for the chat screen with back, contact info, and menu buttons.
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ChatAppBar({super.key});
 

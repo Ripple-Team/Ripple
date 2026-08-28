@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ripple/generated/l10n.dart';
 import 'package:ripple/extensions/theme_data_ext.dart';
 
+/// Search input field with a clear button shown only when focused.
 class SearchWidget extends StatefulWidget {
   const SearchWidget({super.key});
 
@@ -21,7 +22,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: theme.secondaryBackground,
+        color: theme.colorScheme.secondaryBackground,
         borderRadius: BorderRadius.circular(50)
       ),
       child: Row(

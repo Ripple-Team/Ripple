@@ -6,6 +6,11 @@ import 'package:ripple/generated/l10n.dart';
 
 enum _AuthMode { login, register }
 
+/// Combined login and registration screen.
+///
+/// Toggles between login and registration modes via a text button.
+/// Displays validation errors from [AuthProvider] and local checks
+/// (e.g. password confirmation mismatch).
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 

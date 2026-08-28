@@ -4,9 +4,21 @@ import 'package:ripple/utils/message_utils.dart';
 import 'package:ripple/utils/time_utils.dart';
 import 'package:ripple/models/message.dart';
 
+/// A single message bubble in a chat conversation.
+///
+/// Renders on the right side for the current user's messages,
+/// and on the left side for messages from others. Shows a timestamp
+/// and delivery status icon for outgoing messages.
 class MessageBubble extends StatelessWidget {
+  /// The message to display.
   final Message message;
+
+  /// Whether this message immediately follows another from the same sender.
+  ///
+  /// Used to visually group messages by reducing the inner border radius.
   final bool isConsecutive;
+
+  /// Whether this message was sent by the current user.
   final bool isMe;
 
   const MessageBubble({
@@ -64,7 +76,6 @@ class MessageBubble extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Time
                     Text(
                       formatTime(message.time),
                       style: TextStyle(
@@ -73,7 +84,6 @@ class MessageBubble extends StatelessWidget {
                       ),
                     ),
 
-                    // Message status (only for your messages)
                     if (isMe) ...[
                       const SizedBox(width: 4),
                       Icon(

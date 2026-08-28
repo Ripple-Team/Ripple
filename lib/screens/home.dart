@@ -9,6 +9,9 @@ import 'package:ripple/screens/profile_tab.dart';
 import 'package:ripple/screens/chat_tab.dart';
 import 'package:ripple/generated/l10n.dart';
 
+/// Main screen of the app after authentication.
+///
+/// Hosts four tabs: contacts, profile, chats, and settings.
 class Home extends StatefulWidget {
   const Home({super.key});
 

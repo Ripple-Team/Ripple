@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:ripple/extensions/theme_data_ext.dart';
 
+/// A circular [ElevatedButton] widget that display [Icon].
+///
+/// Automatically adapts its foreground and background colors based on the
+/// current theme brightness (light or dark mode).
 class CircleIconButton extends StatelessWidget {
   final Icon icon;
   final VoidCallback? onPressed;
@@ -19,7 +23,7 @@ class CircleIconButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         padding: const EdgeInsets.all(10),
-        backgroundColor: theme.secondaryBackground,
+        backgroundColor: theme.colorScheme.secondaryBackground,
         foregroundColor: color,
         shadowColor: Colors.transparent,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
