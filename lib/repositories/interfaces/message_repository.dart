@@ -5,6 +5,10 @@ import 'package:ripple/models/message.dart';
 /// Provides a reactive stream of messages for a given chat,
 /// and methods to send new messages.
 abstract class MessageRepository {
+  ///Returns whatever messages are already available in memory for [chatId],
+  ///without waiting for a network round-trip. Empty list if nothing cached yet.
+  List<Message> getCachedMessages(String chatId);
+
   /// Returns a stream of messages for the given [chatId].
   ///
   /// The stream emits a new list whenever messages are added,

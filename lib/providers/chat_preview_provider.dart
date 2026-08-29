@@ -17,6 +17,9 @@ class ChatPreviewProvider extends ChangeNotifier {
   Message? get lastMessage => _lastMessage;
 
   ChatPreviewProvider(MessageRepository repository, String chatId) {
+    final cached = repository.getCachedMessages(chatId);
+    _lastMessage = cached.isEmpty ? null : cached.last;
+
     _subscription = repository.getMessages(chatId).listen((messages) {
       _lastMessage = messages.isEmpty ? null : messages.last;
       notifyListeners();

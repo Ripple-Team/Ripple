@@ -26,6 +26,8 @@ class ChatProvider extends ChangeNotifier {
   /// Creates a [ChatProvider] for the given [chatId] and starts listening
   /// to incoming messages.
   ChatProvider(this._repository, this._chatId, this._currentUserId) {
+    _messages = _repository.getCachedMessages(_chatId);
+    _isLoading = _messages.isEmpty;
     _listenToMessages();
   }
 
@@ -55,6 +57,7 @@ class ChatProvider extends ChangeNotifier {
 
     final tempMsg = Message(
       id: "temp_${DateTime.now().millisecondsSinceEpoch}",
+      chatId: _chatId,
       text: text,
       senderId: _currentUserId,
       time: DateTime.now(),

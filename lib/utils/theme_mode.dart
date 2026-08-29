@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:flutter/material.dart';
 
+// TODO: mb put it in dir 'adapters'?
+
 /// Application theme mode that can be persisted in Hive.
 ///
 /// Maps to Flutter's [ThemeMode] via [toFlutter] method.

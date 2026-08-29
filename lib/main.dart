@@ -14,12 +14,16 @@ import 'package:ripple/repositories/hive_settings_repository.dart';
 import 'package:ripple/repositories/mock_message_repository.dart';
 import 'package:ripple/repositories/hive_session_repository.dart';
 import 'package:ripple/repositories/mock_auth_repository.dart';
+import 'package:ripple/repositories/hive_message_cache.dart';
 import 'package:ripple/providers/settings_provider.dart';
+import 'package:ripple/services/secure_key_store.dart';
 import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/models/app_settings.dart';
 import 'package:ripple/screens/auth_screen.dart';
+import 'package:ripple/utils/message_utils.dart';
 import 'package:ripple/utils/theme_mode.dart';
 import 'package:ripple/generated/l10n.dart';
+import 'package:ripple/models/message.dart';
 import 'package:ripple/screens/home.dart';
 
 void main() async {
@@ -36,13 +40,32 @@ void main() async {
   Hive.init(messengerDir.path);
   Hive.registerAdapter(AppSettingsAdapter());
   Hive.registerAdapter(AppThemeModeAdapter());
+  Hive.registerAdapter(MessageAdapter());
+  Hive.registerAdapter(MessageStatusAdapter());
+
+  final keyProvider = SecureKeyStore();
+  final encryptionKey = await keyProvider.getEncryptionKey();
+  final cipher = HiveAesCipher(encryptionKey);
 
   final Box<AppSettings> settingsBox = await Hive.openBox<AppSettings>(
     "settings",
   );
-  final Box<String> sessionBox = await Hive.openBox("session");
+  final Box<String> sessionBox = await Hive.openBox<String>(
+    "session",
+    encryptionCipher: cipher,
+  );
+  final messagesBox = await Hive.openBox(
+    "messages_cache",
+    encryptionCipher: cipher,
+  );
 
-  runApp(Messenger(settingsBox: settingsBox, sessionBox: sessionBox));
+  runApp(
+    Messenger(
+      settingsBox: settingsBox,
+      sessionBox: sessionBox,
+      messagesBox: messagesBox,
+    ),
+  );
 }
 
 /// The root widget of the Ripple application.
@@ -52,11 +75,13 @@ void main() async {
 class Messenger extends StatelessWidget {
   final Box<AppSettings> settingsBox;
   final Box<String> sessionBox;
+  final Box messagesBox;
 
   const Messenger({
     super.key,
     required this.settingsBox,
     required this.sessionBox,
+    required this.messagesBox,
   });
 
   @override
@@ -71,7 +96,7 @@ class Messenger extends StatelessWidget {
           create: (_) => HiveSessionRepository(sessionBox),
         ),
         Provider<MessageRepository>(
-          create: (_) => MockMessageRepository(),
+          create: (_) => MockMessageRepository(HiveMessageCache(messagesBox)),
           dispose: (_, repository) => repository.dispose(),
         ),
         ChangeNotifierProvider(

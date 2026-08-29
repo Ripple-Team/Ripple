@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ripple/repositories/interfaces/message_cache.dart';
 
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/models/message.dart';
@@ -11,61 +12,71 @@ import 'package:ripple/models/message.dart';
 /// with a short simulated network delay.
 @visibleForTesting
 class MockMessageRepository implements MessageRepository {
-  final _controller = StreamController<List<Message>>.broadcast();
+  final MessageCache _cache;
 
-  final List<Message> _mockMessages = [
-    Message(
-      id: "1",
-      text: "Приветик, как дела? :3",
-      senderId: "19234",
-      time: DateTime.now().subtract(const Duration(minutes: 5)),
-    ),
-    Message(
-      id: "2",
-      text: "Нормально, а у тебя как? :3",
-      senderId: "gg",
-      time: DateTime.now().subtract(const Duration(minutes: 4)),
-    ),
-    Message(
-      id: "3",
-      text: "Хорошо, го гулять? :3",
-      senderId: "19234",
-      time: DateTime.now().subtract(const Duration(minutes: 3)),
-    ),
-    Message(
-      id: "4",
-      text: "А то одному скучно",
-      senderId: "19234",
-      time: DateTime.now().subtract(const Duration(minutes: 3)),
-    ),
-  ];
+  final Map<String, List<Message>> _messagesByChat = {};
+  final Map<String, StreamController<List<Message>>> _controllers = {};
+
+  MockMessageRepository(this._cache);
+
+  List<Message> _messagesFor(String chatId) {
+    return _messagesByChat.putIfAbsent(
+      chatId,
+      () => _cache.getMessages(chatId),
+    );
+  }
+
+  StreamController<List<Message>> _controllerFor(String chatId) {
+    return _controllers.putIfAbsent(
+      chatId,
+      () => StreamController<List<Message>>.broadcast(),
+    );
+  }
+
+  @override
+  List<Message> getCachedMessages(String chatId) =>
+      List.unmodifiable(_messagesFor(chatId));
 
   @override
   Stream<List<Message>> getMessages(String chatId) {
+    final controller = _controllerFor(chatId);
+
     Future.delayed(const Duration(milliseconds: 300), () {
-      if (!_controller.isClosed) {
-        _controller.add(List.unmodifiable(_mockMessages));
+      if (!controller.isClosed) {
+        controller.add(List.unmodifiable(_messagesFor(chatId)) );
       }
     });
-    return _controller.stream;
+    return controller.stream;
   }
 
   @override
   Future<void> sendMessage(String chatId, String text, String senderId) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    final newMsg = Message(
-      id: DateTime.now().microsecondsSinceEpoch.toString(),
-      text: text,
-      senderId: senderId,
-      time: DateTime.now(),
-    );
 
-    _mockMessages.add(newMsg);
-    if (!_controller.isClosed) {
-      _controller.add(List.unmodifiable(_mockMessages));
+    final updated = [
+      ..._messagesFor(chatId),
+      Message(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        chatId: chatId,
+        text: text,
+        senderId: senderId,
+        time: DateTime.now(),
+      ),
+    ];
+
+    _messagesByChat[chatId] = updated;
+    await _cache.saveMessages(chatId, updated);
+
+    final controller = _controllerFor(chatId);
+    if (!controller.isClosed) {
+      controller.add(List.unmodifiable(updated));
     }
   }
 
   @override
-  void dispose() => _controller.close();
+  void dispose() {
+    for (final controller in _controllers.values) {
+      controller.close();
+    }
+  }
 }
