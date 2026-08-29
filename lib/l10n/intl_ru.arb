@@ -33,6 +33,7 @@
   "settings_appearance_title": "Оформление",
   "settings_appearance_subtitle": "Тема, акцентный цвет",
   "chat_screen_text_field_hint_text": "Сообщение...",
+  "chat_beginning_of_history": "Это начало вашей переписки",
   "english": "English",
   "russian": "Русский"
 }

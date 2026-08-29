@@ -6,11 +6,16 @@ import 'package:provider/provider.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ripple/providers/chat_list_provider.dart';
+import 'package:ripple/repositories/interfaces/chat_repository.dart';
 
+import 'package:ripple/repositories/interfaces/contact_repository.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/repositories/interfaces/session_repository.dart';
 import 'package:ripple/repositories/interfaces/auth_repository.dart';
 import 'package:ripple/repositories/hive_settings_repository.dart';
+import 'package:ripple/repositories/mock_chat_repository.dart';
+import 'package:ripple/repositories/mock_contact_repository.dart';
 import 'package:ripple/repositories/mock_message_repository.dart';
 import 'package:ripple/repositories/hive_session_repository.dart';
 import 'package:ripple/repositories/mock_auth_repository.dart';
@@ -104,6 +109,17 @@ class Messenger extends StatelessWidget {
             context.read<AuthRepository>(),
             context.read<SessionRepository>(),
           ),
+        ),
+        Provider<ContactRepository>(
+          create: (_) => MockContactRepository(),
+          dispose: (_, repo) => repo.dispose(),
+        ),
+        Provider<ChatRepository>(
+          create: (_) => MockChatRepository(),
+          dispose: (_, repo) => repo.dispose(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ChatListProvider(context.read<ChatRepository>()),
         ),
       ],
       child: Consumer2<SettingsProvider, AuthProvider>(

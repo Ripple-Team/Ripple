@@ -44,9 +44,7 @@ class MessageBubble extends StatelessWidget {
       topLeft: const Radius.circular(16),
       topRight: const Radius.circular(16),
       bottomLeft: Radius.circular(isMe ? 16 : (isConsecutive ? 4 : 16)),
-      bottomRight: Radius.circular(
-        isMe ? (isConsecutive ? 4 : 16) : 16,
-      ),
+      bottomRight: Radius.circular(isMe ? (isConsecutive ? 4 : 16) : 16),
     );
 
     return Padding(
@@ -87,9 +85,11 @@ class MessageBubble extends StatelessWidget {
                     if (isMe) ...[
                       const SizedBox(width: 4),
                       Icon(
-                        message.status == MessageStatus.read
-                            ? Icons.done_all
-                            : Icons.done,
+                        switch (message.status) {
+                          MessageStatus.sending => Icons.access_time_rounded,
+                          MessageStatus.sent => Icons.check_rounded,
+                          MessageStatus.read => Icons.done_all_rounded,
+                        },
                         size: 14,
                         color: message.status == MessageStatus.read
                             ? theme.colorScheme.primary

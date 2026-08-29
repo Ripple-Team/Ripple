@@ -66,6 +66,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "bar_settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "chat_beginning_of_history": MessageLookupByLibrary.simpleMessage(
+      "This is the beginning of your conversation",
+    ),
     "chat_screen_text_field_hint_text": MessageLookupByLibrary.simpleMessage(
       "Message...",
     ),

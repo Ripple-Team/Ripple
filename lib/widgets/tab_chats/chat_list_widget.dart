@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:ripple/generated/l10n.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:ripple/widgets/tab_chats/chat_preview.dart';
+import 'package:ripple/providers/chat_list_provider.dart';
+import 'package:ripple/generated/l10n.dart';
 
 /// Displays the list of user's chat conversations.
 ///
@@ -11,13 +14,14 @@ class ChatListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final testItems = [1];
-    if (testItems.isEmpty) return Center(child: Text(s.no_chats));
+    final chats = context.watch<ChatListProvider>().chats;
+
+    if (chats.isEmpty) return Center(child: Text(s.no_chats));
 
     return ListView.builder(
-      itemCount: testItems.length,
+      itemCount: chats.length,
       itemBuilder: (context, index) {
-        return ChatPreview(chatId: "chat_123",); // TODO: real chat id
+        return ChatPreview(chat: chats[index],);
       },
     );
   }

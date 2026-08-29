@@ -16,20 +16,43 @@ class MockMessageRepository implements MessageRepository {
 
   final Map<String, List<Message>> _messagesByChat = {};
   final Map<String, StreamController<List<Message>>> _controllers = {};
+  final Set<String> _exhaustedChats = {};
+
+  /// Synthetic "server-side" history per chat, used only to test
+  /// [loadOlderMessages] - a real backend would provide this instead
+  final Map<String, List<Message>> _fullHistory = {};
 
   MockMessageRepository(this._cache);
 
   List<Message> _messagesFor(String chatId) {
     return _messagesByChat.putIfAbsent(
       chatId,
-      () => _cache.getMessages(chatId),
+          () => _cache.getMessages(chatId),
     );
+  }
+
+  List<Message> _fullHistoryFor(String chatId) {
+    return _fullHistory.putIfAbsent(chatId, () {
+      final now = DateTime.now();
+
+      return List.generate(40, (i) {
+        final index = 39 - i;
+        return Message(
+          id: "seed_${chatId}_$index",
+          chatId: chatId,
+          text: "Historic message №$index",
+          senderId: "contact_$chatId",
+          // not real contact,
+          time: now.subtract(Duration(hours: (index + 1) * 3)),
+        );
+      });
+    });
   }
 
   StreamController<List<Message>> _controllerFor(String chatId) {
     return _controllers.putIfAbsent(
       chatId,
-      () => StreamController<List<Message>>.broadcast(),
+          () => StreamController<List<Message>>.broadcast(),
     );
   }
 
@@ -43,10 +66,41 @@ class MockMessageRepository implements MessageRepository {
 
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!controller.isClosed) {
-        controller.add(List.unmodifiable(_messagesFor(chatId)) );
+        controller.add(List.unmodifiable(_messagesFor(chatId)));
       }
     });
     return controller.stream;
+  }
+
+  @override
+  Future<List<Message>> loadOlderMessages(String chatId, {
+    DateTime? before,
+    int limit = 30,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 400));
+
+    final cutoff = before ?? DateTime.now();
+    final history =
+    _fullHistoryFor(chatId).where((m) => m.time.isBefore(cutoff)).toList()
+      ..sort((a, b) => b.time.compareTo(a.time));
+
+    final page = history
+        .take(limit)
+        .toList()
+        .reversed
+        .toList();
+    if (page.isEmpty) {
+      _exhaustedChats.add(chatId);
+      return const [];
+    }
+
+    final merged = [...page, ..._messagesFor(chatId)]
+      ..sort((a, b) => a.time.compareTo(b.time));
+
+    _messagesByChat[chatId] = merged;
+    await _cache.saveMessages(chatId, merged);
+
+    return page;
   }
 
   @override
@@ -56,7 +110,10 @@ class MockMessageRepository implements MessageRepository {
     final updated = [
       ..._messagesFor(chatId),
       Message(
-        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        id: DateTime
+            .now()
+            .microsecondsSinceEpoch
+            .toString(),
         chatId: chatId,
         text: text,
         senderId: senderId,
@@ -72,6 +129,9 @@ class MockMessageRepository implements MessageRepository {
       controller.add(List.unmodifiable(updated));
     }
   }
+
+  @override
+  bool hasReachedHistoryStart(String chatId)  => _exhaustedChats.contains(chatId);
 
   @override
   void dispose() {

@@ -3,6 +3,10 @@ import 'package:hive/hive.dart';
 import 'package:ripple/repositories/interfaces/message_cache.dart';
 import 'package:ripple/models/message.dart';
 
+/// Hive-backed implementation of [MessageCache].
+///
+/// Stores messages as one 'List&lt;Message&gt;' per chat, keyed by chat id,
+/// in the given Hive [_box]
 class HiveMessageCache implements MessageCache {
   final Box _box;
 

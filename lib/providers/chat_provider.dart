@@ -16,19 +16,26 @@ class ChatProvider extends ChangeNotifier {
 
   List<Message> _messages = [];
   bool _isLoading = true;
+  bool _isLoadingMore = false;
+  bool _hasMoreHistory = false;
 
-  /// The list of messages in this conversation, ordered chronologically.
   List<Message> get messages => _messages;
 
-  /// Whether messages are currently being loaded from the repository.
   bool get isLoading => _isLoading;
 
-  /// Creates a [ChatProvider] for the given [chatId] and starts listening
-  /// to incoming messages.
+  bool get isLoadingMore => _isLoadingMore;
+
+  bool get hasMoreHistory => _hasMoreHistory;
+
   ChatProvider(this._repository, this._chatId, this._currentUserId) {
+    _hasMoreHistory = !_repository.hasReachedHistoryStart(_chatId);
     _messages = _repository.getCachedMessages(_chatId);
     _isLoading = _messages.isEmpty;
     _listenToMessages();
+
+    if (messages.isEmpty) {
+      loadOlderMessages();
+    }
   }
 
   void _listenToMessages() {
@@ -46,6 +53,26 @@ class ChatProvider extends ChangeNotifier {
             notifyListeners();
           },
         );
+  }
+
+  Future<void> loadOlderMessages() async {
+    if (_isLoadingMore || !_hasMoreHistory) return;
+
+    _isLoadingMore = true;
+    notifyListeners();
+
+    final older = await _repository.loadOlderMessages(
+      _chatId,
+      before: _messages.isEmpty ? null : _messages.first.time,
+    );
+    if (older.isEmpty) {
+      _hasMoreHistory = false;
+    } else {
+      _messages = [...older, ..._messages];
+    }
+
+    _isLoadingMore = false;
+    notifyListeners();
   }
 
   /// Sends a new message with an optimistic UI update.

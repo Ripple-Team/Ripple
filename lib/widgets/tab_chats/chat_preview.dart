@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:ripple/repositories/interfaces/contact_repository.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/providers/chat_preview_provider.dart';
 import 'package:ripple/screens/chat_screen.dart';
 import 'package:ripple/utils/time_utils.dart';
+import 'package:ripple/models/chat.dart';
 
 /// Preview tile for a single chat in the conversations list.
 ///
 /// Tapping navigates to the full [ChatScreen] for the given [chatId].
 class ChatPreview extends StatelessWidget {
-  /// ID of the chat to open when tapped.
-  final String chatId;
+  final Chat chat;
 
-  const ChatPreview({super.key, required this.chatId});
+  const ChatPreview({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
+    final contact = context.read<ContactRepository>().getContact(chat.contactId);
+
     return ChangeNotifierProvider(
       create: (context) =>
-          ChatPreviewProvider(context.read<MessageRepository>(), chatId),
+          ChatPreviewProvider(context.read<MessageRepository>(), chat.id),
       child: Consumer<ChatPreviewProvider>(
         builder: (context, preview, _) {
           final lastMessage = preview.lastMessage;
@@ -29,9 +32,9 @@ class ChatPreview extends StatelessWidget {
               onPressed: () {
                 //   TODO: GO TO PROFILE
               },
-              icon: Icon(Icons.person, size: 50), // TODO: make contact
+              icon: const Icon(Icons.person, size: 50), // TODO: make contact
             ),
-            title: Text("Ivan"),
+            title: Text(contact?.name ?? '-'),
             subtitle: Padding(
               padding: EdgeInsets.only(top: 4),
               child: Text(
@@ -51,7 +54,7 @@ class ChatPreview extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ChatScreen(chatId: chatId),
+                  builder: (context) => ChatScreen(chatId: chat.id),
                 ),
               );
             },

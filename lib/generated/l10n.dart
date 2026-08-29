@@ -355,6 +355,16 @@ class S {
     );
   }
 
+  /// `This is the beginning of your conversation`
+  String get chat_beginning_of_history {
+    return Intl.message(
+      'This is the beginning of your conversation',
+      name: 'chat_beginning_of_history',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `English`
   String get english {
     return Intl.message('English', name: 'english', desc: '', args: []);
