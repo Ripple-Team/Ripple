@@ -83,16 +83,23 @@ class SettingsTab extends StatelessWidget {
     S s,
     SettingsProvider settings,
   ) {
+    final dropdownFocus = FocusNode();
+
     return ListTile(
       title: Text(s.settings_tab_language_title),
       trailing: DropdownButton<String>(
+        focusNode: dropdownFocus,
         underline: const SizedBox(),
         value: settings.languageCode,
         items: [
           DropdownMenuItem(value: "en", child: Text(s.english)),
           DropdownMenuItem(value: "ru", child: Text(s.russian)),
         ],
-        onChanged: (newValue) => settings.setLanguage(newValue!),
+        onChanged: (newValue) {
+          settings.setLanguage(newValue!);
+          dropdownFocus.unfocus();
+        },
+        onTap: FocusScope.of(context).unfocus,
       ),
     );
   }

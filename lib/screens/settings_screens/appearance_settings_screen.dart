@@ -20,6 +20,10 @@ class AppearanceSettingsScreen extends StatelessWidget {
     final theme = Theme.of(context);
     final s = S.of(context);
 
+    final shadowColor = theme.brightness == Brightness.dark
+        ? Colors.white.withAlpha(200)
+        : const Color(0xFFABA9AF);
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -31,7 +35,7 @@ class AppearanceSettingsScreen extends StatelessWidget {
             SettingsSection(
               children: [
                 _buildThemeMode(context, s, settings),
-                _buildAccentColors(context, s, settings),
+                _buildAccentColors(context, s, settings, shadowColor),
               ],
             ),
           ],
@@ -41,9 +45,12 @@ class AppearanceSettingsScreen extends StatelessWidget {
   }
 
   Widget _buildThemeMode(BuildContext context, S s, SettingsProvider settings) {
+    final dropDownThemeFocus = FocusNode();
+
     return ListTile(
       title: Text(s.settings_tab_themeMode_title),
       trailing: DropdownButton<AppThemeMode>(
+        focusNode: dropDownThemeFocus,
         underline: const SizedBox.shrink(),
         value: settings.currentTheme,
         items: [
@@ -60,7 +67,11 @@ class AppearanceSettingsScreen extends StatelessWidget {
             child: Text(s.settings_tab_themeMode_dark),
           ),
         ],
-        onChanged: (newValue) => settings.setTheme(newValue!),
+        onChanged: (newValue) {
+          settings.setTheme(newValue!);
+          dropDownThemeFocus.unfocus();
+        },
+        onTap: FocusScope.of(context).unfocus,
       ),
     );
   }
@@ -69,7 +80,10 @@ class AppearanceSettingsScreen extends StatelessWidget {
     BuildContext context,
     S s,
     SettingsProvider settings,
+    Color shadowColor,
   ) {
+    final theme = Theme.of(context);
+
     return ListTile(
       title: Text(s.settings_tab_accentColor_title),
       subtitle: Padding(
@@ -93,7 +107,7 @@ class AppearanceSettingsScreen extends StatelessWidget {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                            color: Colors.white.withAlpha(200),
+                            color: shadowColor,
                             offset: const Offset(0, 0),
                             spreadRadius: 4,
                             blurRadius: 5,

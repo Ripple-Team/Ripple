@@ -65,23 +65,26 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
           controller: _tabController,
           tabs: [
-            Tab(
-              child: BarIcon(title: s.bar_contacts, icon: Icon(Icons.people)),
-            ),
-            Tab(
-              child: BarIcon(title: s.bar_profile, icon: Icon(Icons.person)),
-            ),
-            Tab(
-              child: BarIcon(
-                title: s.bar_chats,
-                icon: Icon(Icons.wechat_outlined),
-              ),
-            ),
-            Tab(
-              child: BarIcon(title: s.bar_settings, icon: Icon(Icons.settings)),
-            ),
+            _buildTab(0, s.bar_contacts, Icons.people),
+            _buildTab(1, s.bar_profile, Icons.person),
+            _buildTab(2, s.bar_chats, Icons.wechat_outlined),
+            _buildTab(3, s.bar_settings, Icons.settings),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildTab(int index, String title, IconData iconData) {
+    return Tab(
+      child: AnimatedBuilder(
+        animation: _tabController,
+        builder: (context, _) {
+          return BarIcon(
+            title: title,
+            icon: Icon(iconData),
+          );
+        },
       ),
     );
   }

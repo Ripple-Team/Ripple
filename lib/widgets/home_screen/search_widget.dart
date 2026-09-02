@@ -55,17 +55,23 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ),
               ),
             ),
-            if (isFocus)
-              IconButton(
+            Visibility(
+              maintainState: true,
+              visible: isFocus,
+              child: IconButton(
+                style: ButtonStyle(
+                  mouseCursor: WidgetStatePropertyAll(SystemMouseCursors.click),
+                ),
                 onPressed: () {
                   setState(() {
                     _controller.text = "";
+                    isFocus = false;
+                    _focusNode.unfocus();
                   });
                 },
                 icon: Icon(Icons.cancel),
-              )
-            else
-              SizedBox(width: 48),
+              ),
+            ),
           ],
         ),
       ),
