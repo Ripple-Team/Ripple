@@ -37,7 +37,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
     final settings = context.watch<SettingsProvider>();
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: ConstrainedBox(
@@ -48,7 +48,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                 borderRadius: BorderRadius.circular(24),
               ),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
                     onPressed: () {

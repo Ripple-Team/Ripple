@@ -36,7 +36,7 @@ class BarIcon extends StatelessWidget {
                 textAlign: TextAlign.center,
                 maxLines: 1,
                 softWrap: false,
-                style: Theme.of(context).textTheme.labelMedium,
+                style: const TextStyle(fontSize: 12),
               ),
             ),
           ),

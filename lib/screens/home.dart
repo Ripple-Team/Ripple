@@ -37,6 +37,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsProvider>();
+    final theme = Theme.of(context);
     final s = S.of(context);
 
     return SafeArea(
@@ -58,7 +59,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.all(Radius.circular(30)),
             gradient: RadialGradient(
-              colors: [settings.accentColor, Colors.transparent],
+              colors: [
+                (theme.brightness == Brightness.dark
+                    ? settings.accentColor
+                    : settings.accentColor.withAlpha(180)),
+                settings.accentColor.withAlpha(0),
+              ],
               stops: [0.5, 1.0],
             ),
           ),
@@ -80,10 +86,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       child: AnimatedBuilder(
         animation: _tabController,
         builder: (context, _) {
-          return BarIcon(
-            title: title,
-            icon: Icon(iconData),
-          );
+          return BarIcon(title: title, icon: Icon(iconData));
         },
       ),
     );

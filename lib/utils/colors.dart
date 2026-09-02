@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 /// for the app's primary accent. The selected color is stored in
 /// [AppSettings] and applied via [SettingsProvider].
 const List<Color> accentColors = [
-  Colors.deepPurple,
+  Color(0xFF177BAD),
   Colors.cyan,
-  Colors.blue,
   Colors.green,
   Colors.yellow,
   Colors.orange,
   Colors.red,
   Colors.pink,
+  Colors.deepPurple,
 ];
