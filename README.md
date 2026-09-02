@@ -11,5 +11,4 @@
 
 ## What is Ripple?
 
-Ripple is an open-source messenger built with Flutter — one codebase for Android, iOS, Windows, macOS, Linux and the
-web. The goal: a clean, lightweight chat app with a focus on privacy and speed.
+Ripple is an open-source messenger built with Flutter - one codebase for Android and Windows. The goal: a clean, lightweight chat app that will work.
