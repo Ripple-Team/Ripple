@@ -62,14 +62,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Контакты"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Профиль"),
     "bar_settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Отмена"),
     "chat_beginning_of_history": MessageLookupByLibrary.simpleMessage(
       "Это начало вашей переписки",
+    ),
+    "chat_screen_editing_title": MessageLookupByLibrary.simpleMessage(
+      "Редактирование сообщения",
     ),
     "chat_screen_text_field_hint_text": MessageLookupByLibrary.simpleMessage(
       "Сообщение...",
     ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "hint_search": MessageLookupByLibrary.simpleMessage("поиск"),
+    "message_action_copy": MessageLookupByLibrary.simpleMessage("Копировать"),
+    "message_action_delete": MessageLookupByLibrary.simpleMessage("Удалить"),
+    "message_action_edit": MessageLookupByLibrary.simpleMessage("Изменить"),
+    "message_delete_text": MessageLookupByLibrary.simpleMessage(
+      "Это действие нельзя отменить.",
+    ),
+    "message_delete_title": MessageLookupByLibrary.simpleMessage(
+      "Удалить сообщение?",
+    ),
+    "message_edited": MessageLookupByLibrary.simpleMessage("изменено"),
     "no_chats": MessageLookupByLibrary.simpleMessage(
       "Похоже у вас нет ни единого чата. \nНачните общаться с кем-нибудь!",
     ),

@@ -30,6 +30,9 @@ class Message {
   @HiveField(5)
   final MessageStatus status;
 
+  @HiveField(6)
+  final DateTime? editedAt;
+
   Message({
     required this.id,
     required this.chatId,
@@ -37,6 +40,7 @@ class Message {
     required this.senderId,
     required this.time,
     this.status = MessageStatus.sent,
+    this.editedAt,
   });
 
   Message copyWith({
@@ -46,6 +50,7 @@ class Message {
     String? senderId,
     DateTime? time,
     MessageStatus? status,
+    DateTime? editedAt,
   }) {
     return Message(
       id: id ?? this.id,
@@ -54,6 +59,7 @@ class Message {
       senderId: senderId ?? this.senderId,
       time: time ?? this.time,
       status: status ?? this.status,
+      editedAt: editedAt ?? this.editedAt,
     );
   }
 }

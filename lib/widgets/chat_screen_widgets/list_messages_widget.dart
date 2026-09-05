@@ -1,9 +1,12 @@
 // Copyright 2026 Ripple Team
 // Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ripple/extensions/message_ext.dart';
 import 'package:provider/provider.dart';
 import 'package:ripple/generated/l10n.dart';
+import 'package:ripple/models/message.dart';
+import 'package:ripple/utils/message_utils.dart';
 
 import 'package:ripple/widgets/chat_screen_widgets/message_bubble.dart';
 import 'package:ripple/providers/auth_provider.dart';
@@ -53,6 +56,80 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
     }
   }
 
+  void _showMessageMenu(
+    BuildContext context,
+    Message message, {
+    required bool isMe,
+  }) {
+    final s = S.of(context);
+
+    showModalBottomSheet(
+      context: context,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.copy_rounded),
+                title: Text(s.message_action_copy),
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: message.text));
+                  if (sheetContext.mounted) Navigator.pop(sheetContext);
+                },
+              ),
+
+              if (isMe && message.status != MessageStatus.sending) ...[
+                ListTile(
+                  leading: const Icon(Icons.edit_rounded),
+                  title: Text(s.message_action_edit),
+                  onTap: () {
+                    Navigator.pop(sheetContext);
+                    this.context.read<ChatProvider>().startEditing(message);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.delete_outline_rounded),
+                  title: Text(s.message_action_delete),
+                  onTap: () {
+                    Navigator.pop(sheetContext);
+                    _confirmDelete(this.context, message.id);
+                  },
+                )
+              ],
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _confirmDelete(BuildContext context, String messageId) async {
+    final s = S.of(context);
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(s.message_delete_title),
+        content: Text(s.message_delete_text),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(s.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(s.message_action_delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      context.read<ChatProvider>().deleteMessage(messageId);
+    }
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -95,7 +172,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
               isTopSlotIndex) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Center(child: Text(s.chat_beginning_of_history))
+              child: Center(child: Text(s.chat_beginning_of_history)),
             );
           }
 
@@ -115,6 +192,7 @@ class _ListMessagesWidgetState extends State<ListMessagesWidget> {
             message: message,
             isConsecutive: isConsecutive,
             isMe: isMe,
+            onLongPress: () => _showMessageMenu(context, message, isMe: isMe),
           );
         },
       ),

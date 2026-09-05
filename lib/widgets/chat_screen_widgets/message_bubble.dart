@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ripple/utils/message_utils.dart';
 import 'package:ripple/utils/time_utils.dart';
 import 'package:ripple/models/message.dart';
+import 'package:ripple/generated/l10n.dart';
 
 /// A single message bubble in a chat conversation.
 ///
@@ -23,16 +24,21 @@ class MessageBubble extends StatelessWidget {
   /// Whether this message was sent by the current user.
   final bool isMe;
 
+  /// Called when the user long-presses the bubble.
+  final VoidCallback? onLongPress;
+
   const MessageBubble({
     super.key,
     required this.message,
     required this.isConsecutive,
     required this.isMe,
+    this.onLongPress,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final s = S.of(context);
 
     final bubbleColor = isMe
         ? theme.colorScheme.primaryContainer
@@ -49,58 +55,78 @@ class MessageBubble extends StatelessWidget {
       bottomRight: Radius.circular(isMe ? (isConsecutive ? 4 : 16) : 16),
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Align(
-        alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75,
-          ),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-            decoration: BoxDecoration(
-              color: bubbleColor,
-              borderRadius: borderRadius,
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Align(
+          alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.75,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  message.text,
-                  style: TextStyle(color: textColor, fontSize: 15, height: 1.3),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      formatTime(message.time),
-                      style: TextStyle(
-                        color: textColor.withValues(alpha: 0.6),
-                        fontSize: 11,
-                      ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color: bubbleColor,
+                borderRadius: borderRadius,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    message.text,
+                    style: TextStyle(
+                      color: textColor,
+                      fontSize: 15,
+                      height: 1.3,
                     ),
-
-                    if (isMe) ...[
-                      const SizedBox(width: 4),
-                      Icon(
-                        switch (message.status) {
-                          MessageStatus.sending => Icons.access_time_rounded,
-                          MessageStatus.sent => Icons.check_rounded,
-                          MessageStatus.read => Icons.done_all_rounded,
-                        },
-                        size: 14,
-                        color: message.status == MessageStatus.read
-                            ? theme.colorScheme.primary
-                            : textColor.withValues(alpha: 0.5),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        formatTime(message.time),
+                        style: TextStyle(
+                          color: textColor.withValues(alpha: 0.6),
+                          fontSize: 11,
+                        ),
                       ),
+
+                      if (message.editedAt != null) ...[
+                        const SizedBox(width: 6),
+                        Text(
+                          s.message_edited,
+                          style: TextStyle(
+                            color: textColor.withValues(alpha: 0.6),
+                            fontSize: 11,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                      ],
+
+                      if (isMe) ...[
+                        const SizedBox(width: 2),
+                        Icon(
+                          switch (message.status) {
+                            MessageStatus.sending => Icons.access_time_rounded,
+                            MessageStatus.sent => Icons.check_rounded,
+                            MessageStatus.read => Icons.done_all_rounded,
+                          },
+                          size: 14,
+                          color: message.status == MessageStatus.read
+                              ? theme.colorScheme.primary
+                              : textColor.withValues(alpha: 0.5),
+                        ),
+                      ],
                     ],
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

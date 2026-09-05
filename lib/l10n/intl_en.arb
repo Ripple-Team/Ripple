@@ -33,7 +33,15 @@
   "settings_appearance_title": "Appearance",
   "settings_appearance_subtitle": "Theme mode, accent color",
   "chat_screen_text_field_hint_text": "Message...",
+  "chat_screen_editing_title": "Editing Message",
   "chat_beginning_of_history": "This is the beginning of your conversation",
+  "message_edited": "edited",
+  "message_action_copy": "Copy",
+  "message_action_edit": "Edit",
+  "message_action_delete": "Delete",
+  "message_delete_title": "Delete message?",
+  "message_delete_text": "This action cannot be undone.",
+  "cancel": "Cancel",
   "english": "English",
   "russian": "Русский"
 }

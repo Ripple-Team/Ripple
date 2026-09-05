@@ -126,10 +126,35 @@ class MockMessageRepository implements MessageRepository {
     _messagesByChat[chatId] = updated;
     await _cache.saveMessages(chatId, updated);
 
-    final controller = _controllerFor(chatId);
-    if (!controller.isClosed) {
-      controller.add(List.unmodifiable(updated));
-    }
+    _emit(chatId, updated);
+  }
+
+  @override
+  Future<void> editMessage(String chatId, String messageId, String newText) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    final updated = _messagesFor(chatId)
+        .map((m) => m.id == messageId
+        ? m.copyWith(text: newText, editedAt: DateTime.now())
+        : m)
+        .toList();
+
+    _messagesByChat[chatId] = updated;
+    await _cache.saveMessages(chatId, updated);
+    _emit(chatId, updated);
+  }
+
+  @override
+  Future<void> deleteMessage(String chatId, String messageId) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+
+    final updated = _messagesFor(chatId)
+        .where((m) => m.id != messageId)
+        .toList();
+
+    _messagesByChat[chatId] = updated;
+    await _cache.saveMessages(chatId, updated);
+    _emit(chatId, updated);
   }
 
   @override
@@ -139,6 +164,13 @@ class MockMessageRepository implements MessageRepository {
   void dispose() {
     for (final controller in _controllers.values) {
       controller.close();
+    }
+  }
+
+  void _emit(String chatId, List<Message> messages) {
+    final controller = _controllerFor(chatId);
+    if (!controller.isClosed) {
+      controller.add(List.unmodifiable(messages));
     }
   }
 }

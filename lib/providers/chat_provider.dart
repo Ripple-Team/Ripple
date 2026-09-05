@@ -20,6 +20,7 @@ class ChatProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool _isLoadingMore = false;
   bool _hasMoreHistory = false;
+  Message? _editingMessage;
 
   List<Message> get messages => _messages;
 
@@ -28,6 +29,8 @@ class ChatProvider extends ChangeNotifier {
   bool get isLoadingMore => _isLoadingMore;
 
   bool get hasMoreHistory => _hasMoreHistory;
+
+  Message? get editingMessage => _editingMessage;
 
   ChatProvider(this._repository, this._chatId, this._currentUserId) {
     _hasMoreHistory = !_repository.hasReachedHistoryStart(_chatId);
@@ -99,6 +102,56 @@ class ChatProvider extends ChangeNotifier {
     } catch (e) {
       _messages = _messages.where((msg) => msg.id != tempMsg.id).toList();
       notifyListeners();
+    }
+  }
+
+  void startEditing(Message message) {
+    _editingMessage = message;
+    notifyListeners();
+  }
+
+  void cancelEditing() {
+    _editingMessage = null;
+    notifyListeners();
+  }
+
+  Future<void> editMessage(String messageId, String newText) async {
+    final text = newText.trim();
+    if (text.isEmpty) return;
+
+    final original = _messages.firstWhere((m) => m.id == messageId);
+
+    _messages = _messages
+        .map(
+          (m) => m.id == messageId
+              ? m.copyWith(text: text, editedAt: DateTime.now())
+              : m,
+        )
+        .toList();
+    _editingMessage = null;
+    notifyListeners();
+
+    try {
+      await _repository.editMessage(_chatId, messageId, newText);
+    } catch (e) {
+      _messages = _messages.map((m) => m.id == messageId ? original : m).toList();
+      notifyListeners();
+      // TODO: error message
+    }
+  }
+
+  Future<void> deleteMessage(String messageId) async {
+    final original = _messages.firstWhere((m) => m.id == messageId);
+
+    _messages = _messages.where((m) => m.id != messageId).toList();
+    notifyListeners();
+
+    try {
+      await _repository.deleteMessage(_chatId, messageId);
+    } catch (e) {
+      _messages = [..._messages, original]..sort((a, b) => a.time.compareTo(b.time));
+      notifyListeners();
+      // TODO: error message
     }
   }
 

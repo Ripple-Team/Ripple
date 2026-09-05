@@ -2,71 +2,47 @@
 // Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:hive_ce_flutter/adapters.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:ripple/data_sources/hive_message_cache_data_source.dart';
 import 'package:ripple/repositories/interfaces/contact_repository.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/repositories/interfaces/session_repository.dart';
 import 'package:ripple/repositories/interfaces/chat_repository.dart';
 import 'package:ripple/repositories/interfaces/auth_repository.dart';
-import 'package:ripple/repositories/hive_settings_repository.dart';
-import 'package:ripple/repositories/mock_contact_repository.dart';
-import 'package:ripple/repositories/mock_message_repository.dart';
-import 'package:ripple/repositories/hive_session_repository.dart';
-import 'package:ripple/repositories/mock_auth_repository.dart';
-import 'package:ripple/repositories/mock_chat_repository.dart';
 import 'package:ripple/providers/chat_list_provider.dart';
 import 'package:ripple/providers/settings_provider.dart';
 import 'package:ripple/providers/auth_provider.dart';
-import 'package:ripple/models/app_settings.dart';
 import 'package:ripple/screens/auth_screen.dart';
 import 'package:ripple/generated/l10n.dart';
 import 'package:ripple/screens/home.dart';
 import 'package:ripple/di.dart';
+import 'package:ripple/utils/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final deps = await initDependencies();
-  runApp(
-    Messenger(
-      settingsBox: deps.settingsBox,
-      sessionBox: deps.sessionBox,
-      messagesBox: deps.messagesBox,
-    ),
-  );
+  runApp(Messenger(deps: await initDependencies()));
 }
 
 /// The root widget of the Ripple application.
 ///
-/// Configures global providers, localization, and themes before
+/// Wires up global providers, localization, and themes before
 /// delegating to either the [AuthScreen] or [Home] screen.
 class Messenger extends StatelessWidget {
-  final Box<AppSettings> settingsBox;
-  final Box<String> sessionBox;
-  final Box messagesBox;
+  final AppDependencies deps;
 
-  const Messenger({
-    super.key,
-    required this.settingsBox,
-    required this.sessionBox,
-    required this.messagesBox,
-  });
+  const Messenger({super.key, required this.deps});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => SettingsProvider(HiveSettingsRepository(settingsBox)),
+          create: (_) => SettingsProvider(deps.settingsRepository),
         ),
-        Provider<AuthRepository>(create: (_) => MockAuthRepository()),
-        Provider<SessionRepository>(
-          create: (_) => HiveSessionRepository(sessionBox),
-        ),
+        Provider<AuthRepository>(create: (_) => deps.authRepository),
+        Provider<SessionRepository>(create: (_) => deps.sessionRepository),
         Provider<MessageRepository>(
-          create: (_) => MockMessageRepository(HiveMessageCacheDataSource(messagesBox)),
+          create: (_) => deps.messageRepository,
           dispose: (_, repository) => repository.dispose(),
         ),
         ChangeNotifierProvider(
@@ -76,11 +52,11 @@ class Messenger extends StatelessWidget {
           ),
         ),
         Provider<ContactRepository>(
-          create: (_) => MockContactRepository(),
+          create: (_) => deps.contactRepository,
           dispose: (_, repo) => repo.dispose(),
         ),
         Provider<ChatRepository>(
-          create: (_) => MockChatRepository(),
+          create: (_) => deps.chatRepository,
           dispose: (_, repo) => repo.dispose(),
         ),
         ChangeNotifierProvider(
@@ -102,23 +78,8 @@ class Messenger extends StatelessWidget {
             ],
 
             themeMode: settingsProvider.currentTheme.toFlutter(),
-
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: settingsProvider.accentColor,
-                brightness: Brightness.light,
-              ),
-              useMaterial3: true,
-            ),
-
-            darkTheme: ThemeData(
-              scaffoldBackgroundColor: Color(0xFF1A1A1D),
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: settingsProvider.accentColor,
-                brightness: Brightness.dark,
-              ),
-              useMaterial3: true,
-            ),
+            theme: lightTheme(settingsProvider.accentColor),
+            darkTheme: darkTheme(settingsProvider.accentColor),
 
             home: auth.isLoggedIn ? const Home() : const AuthScreen(),
           );

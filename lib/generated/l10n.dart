@@ -355,6 +355,16 @@ class S {
     );
   }
 
+  /// `Editing Message`
+  String get chat_screen_editing_title {
+    return Intl.message(
+      'Editing Message',
+      name: 'chat_screen_editing_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `This is the beginning of your conversation`
   String get chat_beginning_of_history {
     return Intl.message(
@@ -363,6 +373,66 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `edited`
+  String get message_edited {
+    return Intl.message('edited', name: 'message_edited', desc: '', args: []);
+  }
+
+  /// `Copy`
+  String get message_action_copy {
+    return Intl.message(
+      'Copy',
+      name: 'message_action_copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get message_action_edit {
+    return Intl.message(
+      'Edit',
+      name: 'message_action_edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get message_action_delete {
+    return Intl.message(
+      'Delete',
+      name: 'message_action_delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete message?`
+  String get message_delete_title {
+    return Intl.message(
+      'Delete message?',
+      name: 'message_delete_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This action cannot be undone.`
+  String get message_delete_text {
+    return Intl.message(
+      'This action cannot be undone.',
+      name: 'message_delete_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
   }
 
   /// `English`

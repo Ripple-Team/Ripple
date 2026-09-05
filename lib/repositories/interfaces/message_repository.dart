@@ -41,6 +41,20 @@ abstract class MessageRepository {
   /// once it has been successfully delivered.
   Future<void> sendMessage(String chatId, String text, String senderId);
 
+  /// Edits the text of an existing message.
+  ///
+  /// The message keeps its original [Message.time]; implementations are
+  /// expected to stamp [Message.editedAt] instead. The updated message is
+  /// emitted by the stream returned by [getMessages].
+  Future<void> editMessage(String chatId, String messageId, String newText);
+
+  /// Deletes a message from the chat.
+  ///
+  /// Currently local-only; "delete for everyone" semantics may extend
+  /// this signature once the backend exists. The change is emitted by
+  /// the stream returned by [getMessages].
+  Future<void> deleteMessage(String chatId, String messageId);
+
   /// Returns `true` if a previous [loadOlderMessages] call for [chatId]
   /// has already confirmed that there is no history older than what is
   /// currently cached.

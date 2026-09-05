@@ -66,14 +66,28 @@ class MessageLookup extends MessageLookupByLibrary {
     "bar_contacts": MessageLookupByLibrary.simpleMessage("Contacts"),
     "bar_profile": MessageLookupByLibrary.simpleMessage("Profile"),
     "bar_settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "chat_beginning_of_history": MessageLookupByLibrary.simpleMessage(
       "This is the beginning of your conversation",
+    ),
+    "chat_screen_editing_title": MessageLookupByLibrary.simpleMessage(
+      "Editing Message",
     ),
     "chat_screen_text_field_hint_text": MessageLookupByLibrary.simpleMessage(
       "Message...",
     ),
     "english": MessageLookupByLibrary.simpleMessage("English"),
     "hint_search": MessageLookupByLibrary.simpleMessage("search"),
+    "message_action_copy": MessageLookupByLibrary.simpleMessage("Copy"),
+    "message_action_delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "message_action_edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "message_delete_text": MessageLookupByLibrary.simpleMessage(
+      "This action cannot be undone.",
+    ),
+    "message_delete_title": MessageLookupByLibrary.simpleMessage(
+      "Delete message?",
+    ),
+    "message_edited": MessageLookupByLibrary.simpleMessage("edited"),
     "no_chats": MessageLookupByLibrary.simpleMessage(
       "You have no chat yet. \nStart chat with somebody!",
     ),
