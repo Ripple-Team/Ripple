@@ -1,4 +1,6 @@
-import 'package:hive/hive.dart';
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
+import 'package:hive_ce/hive_ce.dart';
 
 part 'contact.g.dart';
 

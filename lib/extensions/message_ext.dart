@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:ripple/models/message.dart';
 
 /// Convenience methods for [Message] that require external context.

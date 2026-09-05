@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 
 import 'package:ripple/widgets/chat_screen_widgets/chat_contact_info_widget.dart';

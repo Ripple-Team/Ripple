@@ -1,74 +1,39 @@
-import 'dart:io';
-
-import 'package:path/path.dart' as p;
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:hive_ce_flutter/adapters.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ripple/providers/chat_list_provider.dart';
-import 'package:ripple/repositories/interfaces/chat_repository.dart';
 
+import 'package:ripple/data_sources/hive_message_cache_data_source.dart';
 import 'package:ripple/repositories/interfaces/contact_repository.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/repositories/interfaces/session_repository.dart';
+import 'package:ripple/repositories/interfaces/chat_repository.dart';
 import 'package:ripple/repositories/interfaces/auth_repository.dart';
 import 'package:ripple/repositories/hive_settings_repository.dart';
-import 'package:ripple/repositories/mock_chat_repository.dart';
 import 'package:ripple/repositories/mock_contact_repository.dart';
 import 'package:ripple/repositories/mock_message_repository.dart';
 import 'package:ripple/repositories/hive_session_repository.dart';
 import 'package:ripple/repositories/mock_auth_repository.dart';
-import 'package:ripple/repositories/hive_message_cache.dart';
+import 'package:ripple/repositories/mock_chat_repository.dart';
+import 'package:ripple/providers/chat_list_provider.dart';
 import 'package:ripple/providers/settings_provider.dart';
-import 'package:ripple/services/secure_key_store.dart';
 import 'package:ripple/providers/auth_provider.dart';
 import 'package:ripple/models/app_settings.dart';
 import 'package:ripple/screens/auth_screen.dart';
-import 'package:ripple/utils/message_utils.dart';
-import 'package:ripple/utils/theme_mode.dart';
 import 'package:ripple/generated/l10n.dart';
-import 'package:ripple/models/message.dart';
 import 'package:ripple/screens/home.dart';
+import 'package:ripple/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Isolate Hive storage in dedicated subfolder
-  final appSupportDir = await getApplicationSupportDirectory();
-  final messengerDir = Directory(p.join(appSupportDir.path, "ripple"));
-
-  if (!await messengerDir.exists()) {
-    await messengerDir.create(recursive: true);
-  }
-
-  Hive.init(messengerDir.path);
-  Hive.registerAdapter(AppSettingsAdapter());
-  Hive.registerAdapter(AppThemeModeAdapter());
-  Hive.registerAdapter(MessageAdapter());
-  Hive.registerAdapter(MessageStatusAdapter());
-
-  final keyProvider = SecureKeyStore();
-  final encryptionKey = await keyProvider.getEncryptionKey();
-  final cipher = HiveAesCipher(encryptionKey);
-
-  final Box<AppSettings> settingsBox = await Hive.openBox<AppSettings>(
-    "settings",
-  );
-  final Box<String> sessionBox = await Hive.openBox<String>(
-    "session",
-    encryptionCipher: cipher,
-  );
-  final messagesBox = await Hive.openBox(
-    "messages_cache",
-    encryptionCipher: cipher,
-  );
-
+  final deps = await initDependencies();
   runApp(
     Messenger(
-      settingsBox: settingsBox,
-      sessionBox: sessionBox,
-      messagesBox: messagesBox,
+      settingsBox: deps.settingsBox,
+      sessionBox: deps.sessionBox,
+      messagesBox: deps.messagesBox,
     ),
   );
 }
@@ -101,7 +66,7 @@ class Messenger extends StatelessWidget {
           create: (_) => HiveSessionRepository(sessionBox),
         ),
         Provider<MessageRepository>(
-          create: (_) => MockMessageRepository(HiveMessageCache(messagesBox)),
+          create: (_) => MockMessageRepository(HiveMessageCacheDataSource(messagesBox)),
           dispose: (_, repository) => repository.dispose(),
         ),
         ChangeNotifierProvider(

@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 
 /// Brand-specific colors not available in Flutter's standard [ColorScheme].

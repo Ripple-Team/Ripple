@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 /// Exception thrown by [AuthRepository] when authentication fails.
 ///
 /// The [message] contains a localization key (e.g. `"invalid_credentials"`)

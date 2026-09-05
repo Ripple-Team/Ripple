@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 /// Abstraction for persisting the authenticated user's session.
 ///
 /// Implementations must survive app restarts and be safe to call

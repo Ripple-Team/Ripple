@@ -1,6 +1,8 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'dart:convert';
 
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive_ce.dart';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

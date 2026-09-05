@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 import 'package:ripple/extensions/message_ext.dart';
 import 'package:provider/provider.dart';

@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 
 /// Tab icon with a title, used in the home screen's bottom navigation bar.

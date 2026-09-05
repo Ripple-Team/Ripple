@@ -1,3 +1,5 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:ripple/providers/auth_provider.dart';

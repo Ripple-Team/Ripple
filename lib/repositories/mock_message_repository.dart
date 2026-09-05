@@ -1,8 +1,10 @@
+// Copyright 2026 Ripple Team
+// Licensed under the Apache License, Version 2.0.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:ripple/repositories/interfaces/message_cache.dart';
 
+import 'package:ripple/data_sources/interfaces/message_cache_data_source.dart';
 import 'package:ripple/repositories/interfaces/message_repository.dart';
 import 'package:ripple/models/message.dart';
 
@@ -12,7 +14,7 @@ import 'package:ripple/models/message.dart';
 /// with a short simulated network delay.
 @visibleForTesting
 class MockMessageRepository implements MessageRepository {
-  final MessageCache _cache;
+  final MessageCacheDataSource _cache;
 
   final Map<String, List<Message>> _messagesByChat = {};
   final Map<String, StreamController<List<Message>>> _controllers = {};
